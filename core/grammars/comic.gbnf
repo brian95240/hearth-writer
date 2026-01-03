@@ -1,0 +1,55 @@
+# Hearth Writer - Comic/Marvel Mode Grammar
+# GBNF (GGML BNF) format for constrained generation
+# Enforces proper comic script formatting
+
+root ::= page+
+
+page ::= page-header panel+ page-break?
+
+page-header ::= "PAGE " number "\n" "-"+ "\n\n"
+
+panel ::= panel-header panel-content "\n\n"
+
+panel-header ::= "PANEL " number ("." number)? ":\n"
+
+panel-content ::= (visual-description | dialogue | caption | sfx)+
+
+visual-description ::= "[" visual-text "]\n"
+
+visual-text ::= (letter | digit | " " | "," | "." | "-" | "'" | "!" | "?" | ":" | ";" | "(" | ")" | "/" | "—")+
+
+dialogue ::= character-name ":\n" dialogue-text "\n"
+
+character-name ::= uppercase-word (" " uppercase-word)* (" (" parenthetical ")")?
+
+parenthetical ::= (letter | " " | "-")+
+
+dialogue-text ::= "\"" (letter | digit | " " | "," | "." | "-" | "'" | "!" | "?" | ":" | ";" | "—" | "..." | "\n")+ "\""
+
+caption ::= "CAPTION" (" (" caption-type ")")? ":\n" caption-text "\n"
+
+caption-type ::= "NARRATION" | "THOUGHT" | "LOCATION" | "TIME" | "FLASHBACK"
+
+caption-text ::= "\"" (letter | digit | " " | "," | "." | "-" | "'" | "!" | "?" | ":" | ";" | "—" | "..." | "\n")+ "\""
+
+sfx ::= "SFX: " sfx-text "\n"
+
+sfx-text ::= uppercase-word+
+
+page-break ::= "\n" "="+ "\n\n"
+
+# Visual state markers (Architect feature)
+visual-state ::= "{{VISUAL:" entity-name "|" state-key "=" state-value "}}"
+
+entity-name ::= uppercase-word (" " uppercase-word)*
+
+state-key ::= "COSTUME" | "DAMAGE" | "LOCATION" | "EXPRESSION" | "POSE"
+
+state-value ::= (letter | digit | " " | "-" | "_")+
+
+# Basic elements
+number ::= digit+
+digit ::= [0-9]
+letter ::= [a-zA-Z]
+uppercase-word ::= [A-Z] [A-Z]*
+word ::= letter+

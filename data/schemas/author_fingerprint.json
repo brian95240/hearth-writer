@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Author Fingerprint",
+  "description": "Configuration entity for stylometric persistence, LoRA adaptation, and voice cloning embeddings.",
+  "type": "object",
+  "required": [
+    "meta",
+    "stylometry",
+    "voice_engine",
+    "system_constraints"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "uuid": { "type": "string", "format": "uuid" },
+        "author_alias": { "type": "string" },
+        "version_hash": { "type": "string" },
+        "last_updated": { "type": "string", "format": "date-time" }
+      }
+    },
+    "stylometry": {
+      "type": "object",
+      "description": "Text generation parameters derived from user corpus.",
+      "properties": {
+        "diction_temperature": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 2.0,
+          "description": "Entropy constraint for vocabulary selection."
+        },
+        "sentence_cadence_vector": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "Normalized distribution of sentence lengths (short vs. long)."
+        },
+        "tone_weights": {
+          "type": "object",
+          "properties": {
+            "noir": { "type": "number", "minimum": 0, "maximum": 1 },
+            "academic": { "type": "number", "minimum": 0, "maximum": 1 },
+            "colloquial": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "active_lora_path": {
+          "type": "string",
+          "pattern": "^(\\/|\\\\|[a-zA-Z]:\\\\).+\\.safetensors$"
+        },
+        "base_model_fingerprint": { "type": "string" }
+      }
+    },
+    "voice_engine": {
+      "type": "object",
+      "description": "TTS and Voice Cloning parameters.",
+      "properties": {
+        "default_voice_embedding": {
+          "type": "array",
+          "items": { "type": "number" },
+          "description": "512-dimension vector from Coqui XTTS/OpenVoice encoder."
+        },
+        "character_map": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "character_id": { "type": "string" },
+              "voice_embedding_path": { "type": "string" },
+              "pitch_shift": { "type": "number", "default": 1.0 },
+              "speaking_rate": { "type": "number", "default": 1.0 }
+            }
+          }
+        },
+        "psychoacoustics": {
+          "type": "object",
+          "properties": {
+            "binaural_beat_freq_hz": { "type": "number", "default": 14.0 },
+            "background_mix_db": { "type": "number", "default": -30.0 }
+          }
+        }
+      }
+    },
+    "system_constraints": {
+      "type": "object",
+      "properties": {
+        "max_inference_ram_mb": { "type": "integer" },
+        "allow_plagiarism_rewrite": { "type": "boolean", "default": true },
+        "auto_save_interval_sec": { "type": "integer", "default": 60 }
+      }
+    }
+  }
+}

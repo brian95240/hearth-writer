@@ -1,0 +1,110 @@
+{
+  "manifest_version": "1.2.0",
+  "project_name": "Untitled Project",
+  "created_at": "2025-01-03T00:00:00Z",
+  "updated_at": "2025-01-03T00:00:00Z",
+  
+  "archetype": {
+    "id": "prose",
+    "name": "Global Novelist",
+    "description": "Deep narrative with callback support across 1000+ pages"
+  },
+  
+  "archetypes_available": {
+    "prose": {
+      "name": "Global Novelist",
+      "description": "Deep narrative callback (1000+ pages). Shadow Nodes for 'Open Loops'.",
+      "grammar": null,
+      "features": ["shadow_nodes", "pure_mode", "voice_engine"],
+      "license_required": "ronin",
+      "context_lenses": ["character", "location", "plot_thread", "timeline"]
+    },
+    "screenplay": {
+      "name": "Screenwriter",
+      "description": "Rapid formatting & Flow. Auto-detects INT./EXT. scene headers.",
+      "grammar": "./core/grammars/screenplay.gbnf",
+      "features": ["auto_format", "voice_engine"],
+      "license_required": "ronin",
+      "context_lenses": ["scene", "character", "location"]
+    },
+    "comic": {
+      "name": "Comic Architect",
+      "description": "Visual continuity across issues. Visual Tag Injection for costume/damage states.",
+      "grammar": "./core/grammars/comic.gbnf",
+      "features": ["visual_tracking", "shadow_nodes", "panel_layout"],
+      "license_required": "architect",
+      "context_lenses": ["visual_state", "character", "issue", "panel"]
+    },
+    "playwright": {
+      "name": "Playwright",
+      "description": "Lyrics vs. Dialogue vs. Blocking. Stage Mode splits UI columns.",
+      "grammar": "./core/grammars/playwright.gbnf",
+      "features": ["stage_mode", "song_blocks", "voice_engine"],
+      "license_required": "ronin",
+      "context_lenses": ["act", "scene", "character", "song"]
+    },
+    "children": {
+      "name": "Children's Author",
+      "description": "Simple vocabulary (Age 6-8). Lexile Grammar restricts complexity.",
+      "grammar": "./core/grammars/lexile_simple.gbnf",
+      "features": ["lexile_constraint", "voice_engine"],
+      "license_required": "ronin",
+      "context_lenses": ["character", "lesson", "vocabulary"]
+    },
+    "showrunner": {
+      "name": "TV Showrunner",
+      "description": "Arc dependencies across seasons. Logic Locks prevent continuity errors.",
+      "grammar": "./core/grammars/screenplay.gbnf",
+      "features": ["shadow_nodes", "logic_locks", "arc_tracking", "collaboration"],
+      "license_required": "showrunner",
+      "context_lenses": ["season", "episode", "character_arc", "plot_thread"]
+    },
+    "game": {
+      "name": "Game Designer",
+      "description": "Branching Logic (IF/ELSE). Logic Nodes batch-generate multiple outcomes.",
+      "grammar": null,
+      "features": ["logic_nodes", "branch_generation", "conditional_blocks"],
+      "license_required": "architect",
+      "context_lenses": ["branch", "variable", "outcome", "player_state"]
+    }
+  },
+  
+  "settings": {
+    "auto_mode_switch": true,
+    "shadow_nodes_enabled": false,
+    "visual_tracking_enabled": false,
+    "pure_mode_enabled": true,
+    "voice_engine_enabled": true,
+    "collapse_timeout_seconds": 300,
+    "max_context_tokens": 2048
+  },
+  
+  "series_metadata": {
+    "title": "",
+    "genre": "",
+    "target_audience": "",
+    "word_count_target": 0,
+    "chapters": [],
+    "characters": [],
+    "locations": [],
+    "plot_threads": []
+  },
+  
+  "visual_states": {
+    "_comment": "Used by Comic Architect mode for visual continuity",
+    "entities": {}
+  },
+  
+  "shadow_nodes": {
+    "_comment": "Open loops and timeline branches for complex narratives",
+    "open_loops": [],
+    "resolved_loops": [],
+    "timeline_branches": []
+  },
+  
+  "logic_locks": {
+    "_comment": "Prevents killing characters needed for future arcs",
+    "protected_entities": [],
+    "arc_dependencies": []
+  }
+}

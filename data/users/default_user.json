@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "uuid": "0000-0000-0000-0000",
+    "author_alias": "Brian",
+    "version_hash": "v1.0"
+  },
+  "stylometry": {
+    "diction_temperature": 0.8,
+    "sentence_cadence_vector": [0.2, 0.8, 0.5],
+    "tone_weights": {
+      "noir": 0.7,
+      "academic": 0.1,
+      "colloquial": 0.2
+    },
+    "active_lora_path": "default"
+  },
+  "voice_engine": {
+    "default_voice_embedding": [], 
+    "character_map": [],
+    "psychoacoustics": {
+      "binaural_beat_freq_hz": 14.0,
+      "background_mix_db": -30.0
+    }
+  },
+  "system_constraints": {
+    "max_inference_ram_mb": 4096,
+    "allow_plagiarism_rewrite": true
+  }
+}

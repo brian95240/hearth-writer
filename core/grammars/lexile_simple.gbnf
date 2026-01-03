@@ -1,0 +1,43 @@
+# Hearth Writer - Lexile Simple Grammar (Children's Author Mode)
+# GBNF (GGML BNF) format for constrained generation
+# Restricts vocabulary to simple words (target: Age 6-8, Lexile 200-500)
+# Words limited to ~3 syllables max, common vocabulary
+
+root ::= story
+
+story ::= paragraph+
+
+paragraph ::= sentence+ "\n\n"
+
+sentence ::= (simple-sentence | question | exclamation) " "?
+
+simple-sentence ::= subject " " verb " " object? "."
+
+question ::= question-word " " subject " " verb " " object? "?"
+
+exclamation ::= subject " " verb " " object? "!"
+
+# Simple subjects (common nouns and pronouns)
+subject ::= pronoun | simple-noun | name
+
+pronoun ::= "I" | "You" | "He" | "She" | "It" | "We" | "They" | "The " simple-noun
+
+simple-noun ::= "dog" | "cat" | "bird" | "fish" | "tree" | "house" | "car" | "ball" | "book" | "toy" | "mom" | "dad" | "boy" | "girl" | "baby" | "friend" | "teacher" | "sun" | "moon" | "star" | "cloud" | "rain" | "snow" | "flower" | "grass" | "rock" | "water" | "food" | "cake" | "apple" | "banana" | "cookie" | "milk" | "juice" | "bed" | "chair" | "table" | "door" | "window" | "floor" | "wall" | "sky" | "ground" | "path" | "road" | "park" | "school" | "store" | "farm" | "zoo" | "beach" | "forest" | "river" | "lake" | "hill" | "mountain"
+
+name ::= "Sam" | "Max" | "Lily" | "Emma" | "Jack" | "Mia" | "Ben" | "Zoe" | "Leo" | "Ava" | "Tom" | "Amy" | "Dan" | "Ella" | "Finn" | "Luna" | "Rex" | "Spot" | "Fluffy" | "Buddy"
+
+# Simple verbs (present tense, easy to read)
+verb ::= "is" | "are" | "was" | "were" | "has" | "have" | "had" | "can" | "will" | "do" | "does" | "did" | "go" | "goes" | "went" | "come" | "comes" | "came" | "see" | "sees" | "saw" | "look" | "looks" | "looked" | "run" | "runs" | "ran" | "walk" | "walks" | "walked" | "jump" | "jumps" | "jumped" | "play" | "plays" | "played" | "eat" | "eats" | "ate" | "drink" | "drinks" | "drank" | "sleep" | "sleeps" | "slept" | "wake" | "wakes" | "woke" | "sit" | "sits" | "sat" | "stand" | "stands" | "stood" | "like" | "likes" | "liked" | "love" | "loves" | "loved" | "want" | "wants" | "wanted" | "need" | "needs" | "needed" | "help" | "helps" | "helped" | "make" | "makes" | "made" | "give" | "gives" | "gave" | "take" | "takes" | "took" | "find" | "finds" | "found" | "say" | "says" | "said" | "tell" | "tells" | "told" | "ask" | "asks" | "asked" | "think" | "thinks" | "thought" | "know" | "knows" | "knew" | "feel" | "feels" | "felt" | "try" | "tries" | "tried" | "start" | "starts" | "started" | "stop" | "stops" | "stopped" | "open" | "opens" | "opened" | "close" | "closes" | "closed" | "smile" | "smiles" | "smiled" | "laugh" | "laughs" | "laughed" | "cry" | "cries" | "cried" | "hug" | "hugs" | "hugged"
+
+# Simple objects
+object ::= article? adjective? simple-noun | "it" | "them" | "this" | "that"
+
+article ::= "a " | "an " | "the " | "some " | "many "
+
+adjective ::= "big" | "small" | "little" | "tall" | "short" | "long" | "fast" | "slow" | "hot" | "cold" | "warm" | "cool" | "new" | "old" | "good" | "bad" | "nice" | "mean" | "happy" | "sad" | "fun" | "silly" | "soft" | "hard" | "loud" | "quiet" | "bright" | "dark" | "red" | "blue" | "green" | "yellow" | "orange" | "pink" | "purple" | "brown" | "black" | "white" | "gray" | "pretty" | "cute" | "funny" | "kind" | "brave" | "smart" | "strong" | "sweet" | "yummy" | "wet" | "dry" | "clean" | "dirty" | "full" | "empty"
+
+# Question words
+question-word ::= "What" | "Where" | "When" | "Who" | "Why" | "How" | "Can" | "Do" | "Does" | "Did" | "Is" | "Are" | "Was" | "Were" | "Will"
+
+# Connectors (for compound sentences)
+connector ::= " and " | " but " | " so " | " then " | " because "

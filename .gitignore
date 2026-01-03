@@ -1,0 +1,177 @@
+# Hearth Writer v1.2 - Comprehensive .gitignore
+# Ensures no sensitive data, cache, or large files are committed
+
+# === Environment & Secrets ===
+.env
+.env.local
+.env.*.local
+*.env
+.envrc
+secrets.yaml
+secrets.json
+**/secrets/
+*.pem
+*.key
+*.crt
+
+# === License Keys (NEVER COMMIT) ===
+*license_key*
+*LICENSE_KEY*
+HEARTH_LICENSE_KEY
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# === Virtual Environments ===
+venv/
+ENV/
+env/
+.venv/
+.conda/
+conda-env/
+
+# === IDE & Editors ===
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+.spyderproject
+.spyproject
+
+# === OS Generated ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# === Models (Large Binary Files) ===
+models/
+*.gguf
+*.ggml
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+*.h5
+
+# === Cache & Temporary Files ===
+data/cache/
+*.cache
+.cache/
+*.tmp
+*.temp
+tmp/
+temp/
+
+# === Audio Cache (Generated) ===
+data/cache/audio_lru/
+*.wav
+*.mp3
+*.ogg
+*.flac
+
+# === Logs ===
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Test Artifacts ===
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# === Build Artifacts ===
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# === Jupyter Notebooks ===
+.ipynb_checkpoints/
+*.ipynb
+
+# === Node.js (Frontend) ===
+node_modules/
+npm-debug.log
+yarn-error.log
+.pnpm-store/
+
+# === Frontend Build ===
+frontend/dist/
+frontend/build/
+frontend/.next/
+frontend/out/
+
+# === Database Files ===
+*.db
+*.sqlite
+*.sqlite3
+data/series_db/*.lance/
+data/series_db/*.idx
+
+# === Sync Protocol (User-specific) ===
+sync/.stfolder/
+sync/.stversions/
+sync/*.xml
+
+# === User Data (Privacy) ===
+data/users/*.json
+!data/users/default_user.json
+data/series_db/project/*.json
+!data/series_db/project/project_manifest.json
+
+# === Backup Files ===
+*.bak
+*.backup
+*.old
+*~
+
+# === Archive Files ===
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# === Documentation Build ===
+docs/_build/
+site/

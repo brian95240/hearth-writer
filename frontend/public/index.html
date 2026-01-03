@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hearth Writer | The Un-App</title>
+    <meta name="description" content="A hyper-efficient, local-first authorship engine with Collapse-to-Zero architecture. Privacy Absolute.">
+    <style>
+        :root { 
+            --bg: #0a0a0a; 
+            --text: #e0e0e0; 
+            --accent: #ff4d00; 
+            --dim: #444; 
+            --gold: #ffd700; 
+            --success: #4caf50;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Courier New', monospace; 
+            padding: 20px; 
+            line-height: 1.6; 
+            max-width: 960px; 
+            margin: 0 auto; 
+        }
+        
+        h1 { 
+            color: var(--accent); 
+            letter-spacing: -1px; 
+            margin-bottom: 5px; 
+            font-size: 2.5em;
+        }
+        
+        .subtitle { 
+            color: var(--dim); 
+            font-size: 0.9em; 
+            margin-bottom: 40px; 
+            display: block; 
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--dim);
+            margin-bottom: 40px;
+        }
+        
+        .hero-tagline {
+            font-size: 1.2em;
+            color: #888;
+            margin-top: 20px;
+        }
+        
+        .hero-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .hero-feature {
+            color: var(--accent);
+            font-size: 0.85em;
+        }
+        
+        /* Pricing Grid */
+        .pricing-section {
+            margin-bottom: 60px;
+        }
+        
+        .pricing-section h2 {
+            text-align: center;
+            color: var(--text);
+            margin-bottom: 30px;
+        }
+        
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
+        
+        .card { 
+            border: 1px solid var(--dim); 
+            padding: 25px; 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card.featured { 
+            border-color: var(--gold); 
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); 
+        }
+        
+        .card.featured::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: #000;
+            padding: 4px 12px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        .card h2 { 
+            margin-top: 0; 
+            font-size: 1.3em; 
+            color: var(--text);
+        }
+        
+        .price { 
+            font-size: 2em; 
+            font-weight: bold; 
+            margin: 15px 0; 
+            display: block; 
+        }
+        
+        .price small {
+            font-size: 0.4em;
+            color: #888;
+        }
+        
+        .billing-note {
+            font-size: 0.75em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .features { 
+            list-style: none; 
+            padding: 0; 
+            font-size: 0.85em; 
+            color: #aaa; 
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        
+        .features li { 
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .features li::before { 
+            content: "✓"; 
+            color: var(--success);
+            position: absolute;
+            left: 0;
+        }
+        
+        .features li.highlight {
+            color: var(--gold);
+            font-weight: bold;
+        }
+        
+        .features li.highlight::before {
+            color: var(--gold);
+        }
+        
+        /* Buttons */
+        .btn { 
+            display: block; 
+            width: 100%; 
+            padding: 12px; 
+            text-align: center; 
+            border: 2px solid var(--accent); 
+            color: var(--accent); 
+            text-transform: uppercase; 
+            cursor: pointer; 
+            background: transparent; 
+            font-family: inherit;
+            font-size: 0.9em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover { 
+            background: var(--accent); 
+            color: #000; 
+        }
+        
+        .btn.gold { 
+            border-color: var(--gold); 
+            color: var(--gold); 
+        }
+        
+        .btn.gold:hover { 
+            background: var(--gold); 
+            color: #000; 
+        }
+        
+        .btn.secondary {
+            border-color: var(--dim);
+            color: var(--dim);
+        }
+        
+        .btn.secondary:hover {
+            border-color: var(--text);
+            color: var(--text);
+        }
+
+        /* Command Box */
+        .command-box { 
+            background: #111; 
+            border: 1px solid var(--dim); 
+            padding: 15px; 
+            margin-top: 15px; 
+            display: none; 
+            word-break: break-all;
+            border-radius: 4px;
+        }
+        
+        .command-text { 
+            color: #8f8; 
+            font-size: 0.8em; 
+        }
+        
+        .command-label {
+            color: #666;
+            font-size: 0.7em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Statement Descriptor Notice */
+        .statement-notice {
+            text-align: center;
+            margin: 30px 0;
+            padding: 15px;
+            border: 1px dashed var(--dim);
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .statement-notice strong {
+            color: var(--text);
+        }
+
+        /* Archetype Section */
+        .archetypes { 
+            margin-top: 60px; 
+            border-top: 1px solid var(--dim); 
+            padding-top: 40px; 
+        }
+        
+        .archetypes h2 { 
+            color: var(--accent); 
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .archetype-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+        }
+        
+        .archetype { 
+            border: 1px solid var(--dim); 
+            padding: 15px; 
+            font-size: 0.85em; 
+        }
+        
+        .archetype h3 { 
+            margin: 0 0 10px 0; 
+            color: var(--gold); 
+            font-size: 0.95em; 
+        }
+        
+        .archetype p { 
+            margin: 0; 
+            color: #888; 
+        }
+
+        /* License Key Section */
+        .license-section {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px solid var(--dim);
+            text-align: center;
+        }
+        
+        .license-section h3 {
+            margin-top: 0;
+            color: var(--text);
+        }
+        
+        .license-section code {
+            background: #111;
+            padding: 8px 15px;
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        .footer { 
+            margin-top: 60px; 
+            padding-top: 20px; 
+            border-top: 1px solid var(--dim); 
+            text-align: center; 
+            font-size: 0.75em; 
+            color: #555; 
+        }
+        
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .hero-features { flex-direction: column; gap: 10px; }
+            .price { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero">
+        <h1>HEARTH WRITER</h1>
+        <span class="subtitle">v1.2 "VERTEX" // Collapse-to-Zero Architecture // Privacy Absolute</span>
+        
+        <p class="hero-tagline">
+            The Un-App — A hyper-efficient, local-first authorship engine.<br>
+            Your words never leave your machine.
+        </p>
+        
+        <div class="hero-features">
+            <span class="hero-feature">◆ < 100MB RAM Idle</span>
+            <span class="hero-feature">◆ Zero Cloud Dependencies</span>
+            <span class="hero-feature">◆ GIL-Free Inference</span>
+        </div>
+    </div>
+
+    <div class="pricing-section">
+        <h2>CHOOSE YOUR PATH</h2>
+        
+        <div class="grid">
+            <!-- RONIN (Free) -->
+            <div class="card">
+                <h2>RONIN</h2>
+                <span class="price">$0</span>
+                <span class="billing-note">Forever free • AGPLv3</span>
+                <ul class="features">
+                    <li>Local Storage Only</li>
+                    <li>Prose & Screenplay Modes</li>
+                    <li>Voice Engine (Cached TTS)</li>
+                    <li>Linear Timeline</li>
+                    <li>1 Active Model</li>
+                    <li>Community Support</li>
+                </ul>
+                <button class="btn secondary" onclick="showInstall('ronin')">DOWNLOAD FREE</button>
+                <div id="ronin-cmd" class="command-box">
+                    <span class="command-label">Run in terminal:</span>
+                    <code class="command-text">git clone https://github.com/brian95240/hearth-writer.git && cd hearth-writer && pip install -r requirements.txt && ./start.sh</code>
+                </div>
+            </div>
+
+            <!-- ARCHITECT (Pro) -->
+            <div class="card featured">
+                <h2>ARCHITECT</h2>
+                <span class="price">$19 <small>/month</small></span>
+                <span class="billing-note">Billed monthly • Cancel anytime</span>
+                <ul class="features">
+                    <li>Commercial License</li>
+                    <li class="highlight">Shadow Nodes (Complex Plots)</li>
+                    <li class="highlight">Visual Tagging (Comics)</li>
+                    <li class="highlight">Multi-LORA Mixing</li>
+                    <li>Timeline Injection</li>
+                    <li>Priority Installer</li>
+                    <li>Email Support</li>
+                </ul>
+                <!-- STRIPE PAYMENT LINK - Replace with your actual link -->
+                <a href="https://buy.stripe.com/REPLACE_WITH_ARCHITECT_LINK" 
+                   target="_blank" 
+                   class="btn gold"
+                   id="architect-btn">
+                    PURCHASE LICENSE
+                </a>
+            </div>
+
+            <!-- SHOWRUNNER (Enterprise) -->
+            <div class="card">
+                <h2>SHOWRUNNER</h2>
+                <span class="price">$49 <small>/seat/month</small></span>
+                <span class="billing-note">Per seat • Volume discounts available</span>
+                <ul class="features">
+                    <li>Enterprise License</li>
+                    <li class="highlight">Team Sync & Collaboration</li>
+                    <li class="highlight">White Labeling</li>
+                    <li class="highlight">Legal Indemnity</li>
+                    <li>Custom Grammar Files</li>
+                    <li>Priority Support</li>
+                    <li>Dedicated Account Manager</li>
+                </ul>
+                <!-- STRIPE PAYMENT LINK - Replace with your actual link -->
+                <a href="https://buy.stripe.com/REPLACE_WITH_SHOWRUNNER_LINK" 
+                   target="_blank" 
+                   class="btn">
+                    PURCHASE LICENSE
+                </a>
+            </div>
+        </div>
+
+        <div class="statement-notice">
+            <strong>Secure Payment via Stripe</strong><br>
+            Your credit card statement will show <strong>"HEARTH WRITER"</strong>
+        </div>
+    </div>
+
+    <div class="license-section">
+        <h3>ALREADY HAVE A LICENSE KEY?</h3>
+        <p>Activate your license before starting Hearth Writer:</p>
+        <code>export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_yourkey"</code>
+        <p style="font-size: 0.8em; color: #666; margin-top: 15px;">
+            Then run <code>./start.sh</code> to launch with Pro features enabled.
+        </p>
+    </div>
+
+    <div class="archetypes">
+        <h2>THE 7 ARCHETYPES</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 30px;">
+            Hearth Writer adapts to your creative workflow
+        </p>
+        <div class="archetype-grid">
+            <div class="archetype">
+                <h3>1. COMIC ARCHITECT</h3>
+                <p>Visual continuity across issues. Visual Tag Injection tracks costume states, damage, and transformations.</p>
+            </div>
+            <div class="archetype">
+                <h3>2. GLOBAL NOVELIST</h3>
+                <p>Deep narrative callback across 1000+ pages. Shadow Nodes track "Open Loops" and foreshadowing.</p>
+            </div>
+            <div class="archetype">
+                <h3>3. CHILDREN'S AUTHOR</h3>
+                <p>Simple vocabulary for ages 6-8. Lexile Grammar automatically restricts complexity.</p>
+            </div>
+            <div class="archetype">
+                <h3>4. SCREENWRITER</h3>
+                <p>Rapid formatting & flow. Auto-detects INT./EXT. scene headers and formats accordingly.</p>
+            </div>
+            <div class="archetype">
+                <h3>5. TV SHOWRUNNER</h3>
+                <p>Arc dependencies across seasons. Logic Locks prevent killing characters needed later.</p>
+            </div>
+            <div class="archetype">
+                <h3>6. PLAYWRIGHT</h3>
+                <p>Lyrics vs. Dialogue vs. Blocking. Stage Mode splits UI into dedicated columns.</p>
+            </div>
+            <div class="archetype">
+                <h3>7. GAME DESIGNER</h3>
+                <p>Branching logic (IF/ELSE). Logic Nodes batch-generate all possible outcomes.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>HEARTH WRITER v1.2 "VERTEX"</strong></p>
+        <p>Collapse-to-Zero Architecture • Privacy Absolute • No Cloud Dependencies</p>
+        <p style="margin-top: 20px;">
+            <a href="https://github.com/brian95240/hearth-writer">GitHub</a> • 
+            <a href="https://github.com/brian95240/hearth-writer/wiki">Documentation</a> • 
+            <a href="https://github.com/brian95240/hearth-writer/issues">Support</a>
+        </p>
+        <p style="margin-top: 20px; color: #333;">
+            Built for creators who refuse to compromise.
+        </p>
+    </div>
+
+    <script>
+        function showInstall(id) {
+            const cmdBox = document.getElementById(id + '-cmd');
+            if (cmdBox.style.display === 'block') {
+                cmdBox.style.display = 'none';
+            } else {
+                document.querySelectorAll('.command-box').forEach(el => el.style.display = 'none');
+                cmdBox.style.display = 'block';
+            }
+        }
+        
+        // Track button clicks (for analytics)
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tier = this.closest('.card')?.querySelector('h2')?.textContent || 'unknown';
+                console.log('Tier selected:', tier);
+                // Add your analytics tracking here
+            });
+        });
+    </script>
+</body>
+</html>

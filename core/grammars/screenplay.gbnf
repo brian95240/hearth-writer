@@ -1,0 +1,10 @@
+root        ::= scene+
+scene       ::= scene_heading action* (dialogue | action)*
+scene_heading ::= "EXT." space location space time newline | "INT." space location space time newline
+action      ::= [a-zA-Z0-9 ,.!?]+ newline
+dialogue    ::= character newline parenthetical? line newline
+character   ::= [A-Z ]+ 
+parenthetical ::= "(" [a-z ]+ ")"
+line        ::= [a-zA-Z0-9 ,.!?]+
+space       ::= " "
+newline     ::= "\n"

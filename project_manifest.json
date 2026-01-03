@@ -1,0 +1,47 @@
+{
+  "project_meta": {
+    "title": "Untitled Masterpiece",
+    "author_alias": "Brian",
+    "version": "1.0",
+    "archetype_mode": "multiverse_architect" 
+    "_comment_modes": "Options: multiverse_architect, global_novelist, children_author, screenwriter, tv_showrunner, playwright, game_designer"
+  },
+
+  "archetype_settings": {
+    "visual_tracking": true,         
+    "lexile_cap": null,              
+    "logic_branching": false,        
+    "strict_formatting": false       
+  },
+
+  "timeline_architecture": {
+    "structure": "non_linear",
+    "shadow_nodes": [
+      {
+        "id": "egg_01",
+        "description": "The clock struck 13",
+        "target_chapter": 1,
+        "resolution_chapter": 50,
+        "status": "injected"
+      }
+    ]
+  },
+
+  "persistent_anomalies": {
+    "logic_locks": [
+      {
+        "entity": "The_Void",
+        "invariant": "Always described as cold, regardless of fire.",
+        "enforcement": "strict"
+      }
+    ]
+  },
+
+  "entities": {
+    "Protagonist": {
+      "visual_state": "torn_cape",
+      "arc_status": "broken",
+      "voice_id": "gruff_hero"
+    }
+  }
+}

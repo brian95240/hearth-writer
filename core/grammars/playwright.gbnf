@@ -1,0 +1,84 @@
+# Hearth Writer - Playwright Mode Grammar
+# GBNF (GGML BNF) format for constrained generation
+# Enforces proper theatrical script formatting (Broadway/Stage format)
+
+root ::= play-header? act+
+
+play-header ::= title-line author-line? setting-line? characters-block? "\n\n"
+
+title-line ::= uppercase-text "\n" "="+ "\n\n"
+
+author-line ::= "By " text "\n\n"
+
+setting-line ::= "Setting: " text "\n\n"
+
+characters-block ::= "CHARACTERS:\n" character-entry+ "\n"
+
+character-entry ::= "  " character-name " - " character-desc "\n"
+
+character-desc ::= text
+
+# Act structure
+act ::= act-header scene+
+
+act-header ::= "\n" "ACT " roman-numeral "\n" "-"+ "\n\n"
+
+roman-numeral ::= "I" | "II" | "III" | "IV" | "V" | "VI" | "VII" | "VIII" | "IX" | "X"
+
+# Scene structure
+scene ::= scene-header scene-content+
+
+scene-header ::= "SCENE " number "\n" location-line? time-line? "\n"
+
+location-line ::= "(" location-text ")\n"
+
+location-text ::= text
+
+time-line ::= "[" time-text "]\n"
+
+time-text ::= text
+
+# Scene content
+scene-content ::= stage-direction | dialogue-block | song-block | blackout
+
+# Stage directions
+stage-direction ::= "(" direction-text ")\n\n"
+
+direction-text ::= (letter | digit | " " | "," | "." | "-" | "'" | ";" | ":" | "!" | "?")+
+
+# Dialogue
+dialogue-block ::= character-name "\n" (dialogue-line | parenthetical-direction)+ "\n"
+
+character-name ::= uppercase-word (" " uppercase-word)*
+
+dialogue-line ::= text "\n"
+
+parenthetical-direction ::= "(" paren-text ")\n"
+
+paren-text ::= (letter | " " | "," | "-")+
+
+# Song/Musical numbers
+song-block ::= song-header lyric-block+ "\n"
+
+song-header ::= "♪ " song-title " ♪\n" "(" sung-by ")\n\n"
+
+song-title ::= text
+
+sung-by ::= character-name (" and " character-name)* | "ENSEMBLE" | "ALL"
+
+lyric-block ::= lyric-line+
+
+lyric-line ::= "  " lyric-text "\n"
+
+lyric-text ::= (letter | digit | " " | "," | "." | "-" | "'" | "!" | "?" | "—" | "...")+
+
+# Transitions
+blackout ::= "\n(BLACKOUT)\n\n" | "\n(LIGHTS FADE)\n\n" | "\n(CURTAIN)\n\n"
+
+# Basic elements
+number ::= digit+
+digit ::= [0-9]
+letter ::= [a-zA-Z]
+uppercase-word ::= [A-Z] [A-Z]*
+uppercase-text ::= [A-Z] (letter | " " | digit | ":" | "-" | "'" | "!")*
+text ::= (letter | digit | " " | "," | "." | "-" | "'" | "!" | "?" | ":" | ";" | "—" | "..." | "\"" | "(" | ")")+
