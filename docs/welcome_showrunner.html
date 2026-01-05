@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Granted | Hearth Writer Showrunner</title>
+    <style>
+        :root { --bg: #0a0a0a; --text: #e0e0e0; --accent: #ff4d00; --dim: #444; --gold: #ffd700; --green: #00ff41; --purple: #9d4edd; }
+        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; padding: 40px 20px; line-height: 1.8; max-width: 800px; margin: 0 auto; }
+        h1 { color: var(--purple); letter-spacing: 2px; margin-bottom: 10px; font-size: 2em; text-shadow: 0 0 20px rgba(157, 78, 221, 0.3); }
+        h2 { color: var(--accent); margin-top: 40px; border-bottom: 1px solid var(--dim); padding-bottom: 10px; }
+        h3 { color: var(--green); margin-top: 30px; }
+        p { color: #aaa; }
+        .welcome-msg { color: var(--purple); font-size: 1.1em; margin-bottom: 40px; }
+        
+        /* License Key Box */
+        .key-box { 
+            background: #111; 
+            border: 2px solid var(--purple); 
+            padding: 25px; 
+            margin: 20px 0; 
+            position: relative;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.2);
+        }
+        .key-box code { 
+            color: var(--purple); 
+            font-size: 1.1em; 
+            display: block;
+            word-break: break-all;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--dim);
+            border: none;
+            color: var(--text);
+            padding: 5px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8em;
+        }
+        .copy-btn:hover { background: var(--purple); color: #000; }
+        .copy-btn.copied { background: var(--green); color: #000; }
+
+        /* Step Cards */
+        .step { 
+            border: 1px solid var(--dim); 
+            padding: 20px; 
+            margin: 15px 0;
+            background: #0d0d0d;
+        }
+        .step-number { 
+            color: var(--purple); 
+            font-weight: bold; 
+            margin-right: 10px;
+        }
+        .step h4 { margin: 0 0 15px 0; color: var(--text); }
+        .step p { margin: 0; font-size: 0.9em; }
+        .step code { 
+            background: #1a1a1a; 
+            padding: 10px 15px; 
+            display: block; 
+            margin-top: 10px;
+            color: #8f8;
+            border-left: 3px solid var(--purple);
+        }
+
+        /* Features Unlocked */
+        .features-unlocked { 
+            margin-top: 40px; 
+            padding: 20px; 
+            border: 1px solid var(--purple);
+            background: rgba(157, 78, 221, 0.05);
+        }
+        .features-unlocked h3 { color: var(--purple); margin-top: 0; }
+        .features-unlocked ul { list-style: none; padding: 0; }
+        .features-unlocked li { margin: 10px 0; color: #aaa; }
+        .features-unlocked li::before { content: "✓ "; color: var(--green); }
+        .features-unlocked li.enterprise::before { content: "★ "; color: var(--purple); }
+
+        /* Team Section */
+        .team-section {
+            margin-top: 40px;
+            padding: 20px;
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.02);
+        }
+        .team-section h3 { color: var(--gold); margin-top: 0; }
+
+        /* Warning Box */
+        .warning {
+            background: rgba(255, 77, 0, 0.1);
+            border: 1px solid var(--accent);
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.85em;
+        }
+        .warning strong { color: var(--accent); }
+
+        /* Footer */
+        .footer { 
+            margin-top: 60px; 
+            padding-top: 20px; 
+            border-top: 1px solid var(--dim); 
+            text-align: center; 
+            font-size: 0.75em; 
+            color: #555; 
+        }
+    </style>
+</head>
+<body>
+
+    <h1>SHOWRUNNER ACCESS</h1>
+    <p class="welcome-msg">Welcome to the Enterprise tier. You now command the full Vertex.</p>
+
+    <h2>YOUR ENTERPRISE CREDENTIALS</h2>
+
+    <div class="step">
+        <h4><span class="step-number">STEP 1</span>Your Master License Key</h4>
+        <p>This key unlocks all features including Team Sync:</p>
+        <div class="key-box">
+            <code id="license-key">export HEARTH_LICENSE_KEY="HRTH_SHOWRUNNER_jab0jN1ruGCK"</code>
+            <button class="copy-btn" onclick="copyKey()">COPY</button>
+        </div>
+    </div>
+
+    <div class="step">
+        <h4><span class="step-number">STEP 2</span>Activate Your License</h4>
+        <p>Paste the command above into your terminal before running the start script:</p>
+        <code>export HEARTH_LICENSE_KEY="HRTH_SHOWRUNNER_jab0jN1ruGCK" && ./start.sh</code>
+    </div>
+
+    <div class="step">
+        <h4><span class="step-number">STEP 3</span>Permanent Activation</h4>
+        <p>Add to your shell profile for automatic activation:</p>
+        <code>echo 'export HEARTH_LICENSE_KEY="HRTH_SHOWRUNNER_jab0jN1ruGCK"' >> ~/.bashrc && source ~/.bashrc</code>
+    </div>
+
+    <div class="features-unlocked">
+        <h3>ALL FEATURES UNLOCKED</h3>
+        <ul>
+            <li><strong>Shadow Nodes</strong> — Complex plot tracking with timeline injection</li>
+            <li><strong>Visual Tagging</strong> — Comic/Marvel mode with visual state metadata</li>
+            <li><strong>Multi-LORA Mixing</strong> — Blend multiple style models simultaneously</li>
+            <li><strong>Timeline Injection</strong> — Non-linear narrative support</li>
+            <li class="enterprise"><strong>Team Sync & Collaboration</strong> — Real-time multi-seat editing</li>
+            <li class="enterprise"><strong>White Labeling</strong> — Remove Hearth branding for your studio</li>
+            <li class="enterprise"><strong>Legal Indemnity</strong> — Enterprise liability protection</li>
+            <li class="enterprise"><strong>Priority Support</strong> — Direct access to engineering team</li>
+            <li class="enterprise"><strong>Custom Grammar Files</strong> — Bespoke GBNF rules for your workflow</li>
+        </ul>
+    </div>
+
+    <div class="team-section">
+        <h3>TEAM DEPLOYMENT</h3>
+        <p>To enable Team Sync across your writers' room:</p>
+        <div class="step">
+            <h4>Configure Syncthing Peer Network</h4>
+            <code>cd hearth_writer/sync && ./setup_team.sh --seats 5</code>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.85em;">
+            Each seat requires the same SHOWRUNNER key. The sync/ folder contains P2P protocols 
+            for secure, cloud-free collaboration. No data leaves your local network.
+        </p>
+    </div>
+
+    <div class="warning">
+        <strong>ENTERPRISE LICENSE TERMS:</strong> This key is licensed per-seat as purchased. 
+        Each team member requires their own seat license. The Showrunner tier includes legal 
+        indemnification for commercial productions. Contact support for volume licensing.
+    </div>
+
+    <h2>SHOWRUNNER-EXCLUSIVE COMMANDS</h2>
+
+    <div class="step">
+        <h4>Enable Team Collaboration</h4>
+        <code>system: enable collaboration mode</code>
+    </div>
+
+    <div class="step">
+        <h4>Logic Lock Check (Arc Dependencies)</h4>
+        <code>system: check arc dependencies for "Character Name"</code>
+    </div>
+
+    <div class="step">
+        <h4>Verify Enterprise Status</h4>
+        <p>Check the console output when connecting:</p>
+        <code>Client connected. License Tier: SHOWRUNNER</code>
+    </div>
+
+    <div class="footer">
+        <p>HEARTH WRITER v1.2 "VERTEX" | Showrunner Enterprise Tier | Privacy Absolute</p>
+        <p>Enterprise Support: enterprise@hearthwriter.dev</p>
+    </div>
+
+    <script>
+        function copyKey() {
+            const keyText = document.getElementById('license-key').innerText;
+            navigator.clipboard.writeText(keyText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'COPIED';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'COPY';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
