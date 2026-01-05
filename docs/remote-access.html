@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Access - Hearth Writer</title>
+    <link rel="icon" type="image/png" href="images/brand_logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #d4692b;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --bg: #faf8f3;
+            --dark: #3e2723;
+            --light: #fff;
+            --gray: #6c757d;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .header img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: var(--gray);
+            font-size: 1.1em;
+        }
+        
+        .breadcrumb {
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        h2 {
+            color: var(--dark);
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        h3 {
+            color: var(--primary);
+            margin: 25px 0 15px 0;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .option-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .option-card.recommended {
+            border: 3px solid var(--success);
+            position: relative;
+        }
+        
+        .option-card.recommended::before {
+            content: "✓ RECOMMENDED";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .option-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .difficulty {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .difficulty.easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .pros, .cons {
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .pros {
+            background: #d4edda;
+        }
+        
+        .cons {
+            background: #f8d7da;
+        }
+        
+        .pros h4, .cons h4 {
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        
+        .pros ul, .cons ul {
+            list-style: none;
+            font-size: 0.9em;
+        }
+        
+        .pros li::before {
+            content: "✓ ";
+            color: var(--success);
+        }
+        
+        .cons li::before {
+            content: "✗ ";
+            color: var(--danger);
+        }
+        
+        .step-box {
+            background: #f8f9fa;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .step-box h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 10px 0;
+            position: relative;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        
+        .copy-btn:hover {
+            background: #b85a24;
+        }
+        
+        .copy-btn.copied {
+            background: var(--success);
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+        }
+        
+        .warning-box::before {
+            content: "⚠️ ";
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 15px 0;
+        }
+        
+        .info-box::before {
+            content: "ℹ️ ";
+        }
+        
+        .platform-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .platform-tab {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--gray);
+        }
+        
+        .platform-tab.active {
+            background: var(--light);
+            color: var(--primary);
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .platform-content {
+            display: none;
+            background: var(--light);
+            padding: 25px;
+            border-radius: 0 8px 8px 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .platform-content.active {
+            display: block;
+        }
+        
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+            text-align: center;
+            color: var(--gray);
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+            .platform-tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> → <a href="quick-start.html">Quick Start</a> → Remote Access
+        </div>
+        
+        <div class="header">
+            <img src="images/brand_logo.png" alt="Hearth Writer Logo">
+            <h1>📱 Remote Access Guide</h1>
+            <p>Access Hearth Writer from anywhere - mobile, tablet, or another computer</p>
+        </div>
+        
+        <h2>🏠 Same Network (WiFi) Access</h2>
+        <p>If your mobile device is on the <strong>same WiFi network</strong> as your computer running Hearth Writer, setup is simple:</p>
+        
+        <div class="step-box">
+            <h4>Step 1: Find Your Computer's IP Address</h4>
+            <p>In your Ubuntu terminal, run:</p>
+            <div class="code-block">
+                <code id="ip-cmd">hostname -I</code>
+                <button class="copy-btn" onclick="copyCode('ip-cmd', this)">Copy</button>
+            </div>
+            <p>This will show something like: <code>192.168.1.105</code></p>
+        </div>
+        
+        <div class="step-box">
+            <h4>Step 2: Access from Mobile</h4>
+            <p>On your phone or tablet browser, go to:</p>
+            <div class="code-block">
+                <code>http://YOUR_IP_ADDRESS:8000</code>
+            </div>
+            <p>Example: <code>http://192.168.1.105:8000</code></p>
+        </div>
+        
+        <div class="info-box">
+            <strong>Note:</strong> The Hearth Writer server must be running on your computer (<code>bash start.sh</code>) for this to work.
+        </div>
+        
+        <h2>🌍 Remote Access (Different Networks)</h2>
+        <p>When traveling or away from home, you need a way to securely connect back to your computer. Here are your options:</p>
+        
+        <!-- Option 1: Tailscale (Recommended) -->
+        <div class="option-card recommended">
+            <div class="option-header">
+                <span class="option-title">Option 1: Tailscale</span>
+                <span class="difficulty easy">Easy • Free</span>
+            </div>
+            <p>Tailscale creates a secure private network between your devices. It's the easiest and most secure option.</p>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Pros</h4>
+                    <ul>
+                        <li>Free for personal use</li>
+                        <li>5-minute setup</li>
+                        <li>Very secure (WireGuard)</li>
+                        <li>Works through firewalls</li>
+                        <li>No port forwarding needed</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Cons</h4>
+                    <ul>
+                        <li>Requires account signup</li>
+                        <li>App needed on each device</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>📋 Tailscale Setup Instructions</h3>
+            
+            <div class="platform-tabs">
+                <button class="platform-tab active" onclick="showPlatform('windows')">Windows PC</button>
+                <button class="platform-tab" onclick="showPlatform('mac')">Mac</button>
+                <button class="platform-tab" onclick="showPlatform('linux')">Linux</button>
+                <button class="platform-tab" onclick="showPlatform('mobile')">Mobile</button>
+            </div>
+            
+            <div id="windows" class="platform-content active">
+                <h4>Setup on Windows (Your Hearth Writer PC)</h4>
+                <ol>
+                    <li>Go to <a href="https://tailscale.com/download/windows" target="_blank">tailscale.com/download/windows</a></li>
+                    <li>Download and install Tailscale</li>
+                    <li>Click the Tailscale icon in your system tray</li>
+                    <li>Sign in with Google, Microsoft, or GitHub</li>
+                    <li>Note your Tailscale IP (looks like <code>100.x.x.x</code>)</li>
+                </ol>
+                <div class="info-box">
+                    Your Tailscale IP will be shown in the app. It stays the same even when your regular IP changes.
+                </div>
+            </div>
+            
+            <div id="mac" class="platform-content">
+                <h4>Setup on Mac (Your Hearth Writer Mac)</h4>
+                <ol>
+                    <li>Go to <a href="https://tailscale.com/download/mac" target="_blank">tailscale.com/download/mac</a></li>
+                    <li>Download from Mac App Store or direct download</li>
+                    <li>Open Tailscale from Applications</li>
+                    <li>Click "Connect" and sign in</li>
+                    <li>Note your Tailscale IP (looks like <code>100.x.x.x</code>)</li>
+                </ol>
+            </div>
+            
+            <div id="linux" class="platform-content">
+                <h4>Setup on Linux (Your Hearth Writer PC)</h4>
+                <div class="code-block">
+                    <code id="linux-ts">curl -fsSL https://tailscale.com/install.sh | sh</code>
+                    <button class="copy-btn" onclick="copyCode('linux-ts', this)">Copy</button>
+                </div>
+                <p>Then start Tailscale:</p>
+                <div class="code-block">
+                    <code id="linux-ts-up">sudo tailscale up</code>
+                    <button class="copy-btn" onclick="copyCode('linux-ts-up', this)">Copy</button>
+                </div>
+                <p>Get your Tailscale IP:</p>
+                <div class="code-block">
+                    <code id="linux-ts-ip">tailscale ip -4</code>
+                    <button class="copy-btn" onclick="copyCode('linux-ts-ip', this)">Copy</button>
+                </div>
+            </div>
+            
+            <div id="mobile" class="platform-content">
+                <h4>Setup on Mobile (iPhone/Android)</h4>
+                <ol>
+                    <li><strong>iPhone:</strong> Download <a href="https://apps.apple.com/app/tailscale/id1470499037" target="_blank">Tailscale from App Store</a></li>
+                    <li><strong>Android:</strong> Download <a href="https://play.google.com/store/apps/details?id=com.tailscale.ipn" target="_blank">Tailscale from Play Store</a></li>
+                    <li>Open the app and sign in with the <strong>same account</strong> as your PC</li>
+                    <li>Toggle the connection ON</li>
+                    <li>Open your browser and go to: <code>http://100.x.x.x:8000</code> (your PC's Tailscale IP)</li>
+                </ol>
+            </div>
+            
+            <div class="step-box">
+                <h4>🎉 You're Done!</h4>
+                <p>Once both devices have Tailscale installed and connected with the same account:</p>
+                <div class="code-block">
+                    <code>http://YOUR_TAILSCALE_IP:8000</code>
+                </div>
+                <p>Example: <code>http://100.64.0.1:8000</code></p>
+                <p>This works from anywhere in the world - coffee shop, airport, hotel, etc.</p>
+            </div>
+        </div>
+        
+        <!-- Option 2: Cloudflare Tunnel -->
+        <div class="option-card">
+            <div class="option-header">
+                <span class="option-title">Option 2: Cloudflare Tunnel</span>
+                <span class="difficulty medium">Medium • Free</span>
+            </div>
+            <p>Creates a secure tunnel to your local server with a custom domain.</p>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Pros</h4>
+                    <ul>
+                        <li>Free tier available</li>
+                        <li>Custom domain support</li>
+                        <li>No app needed on mobile</li>
+                        <li>HTTPS included</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Cons</h4>
+                    <ul>
+                        <li>More complex setup</li>
+                        <li>Requires Cloudflare account</li>
+                        <li>Domain configuration needed</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p>For setup instructions, visit: <a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/" target="_blank">Cloudflare Tunnel Documentation</a></p>
+        </div>
+        
+        <!-- Option 3: Port Forwarding -->
+        <div class="option-card">
+            <div class="option-header">
+                <span class="option-title">Option 3: Port Forwarding</span>
+                <span class="difficulty hard">Advanced • Not Recommended</span>
+            </div>
+            <p>Expose your server directly to the internet through your router.</p>
+            
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>Pros</h4>
+                    <ul>
+                        <li>No extra software</li>
+                        <li>Direct connection</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>Cons</h4>
+                    <ul>
+                        <li>Security risk</li>
+                        <li>Exposes your network</li>
+                        <li>Dynamic IP issues</li>
+                        <li>Router config required</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <strong>Security Warning:</strong> Port forwarding exposes your server to the entire internet. Only use this if you understand the security implications and have proper firewall rules in place.
+            </div>
+        </div>
+        
+        <h2>❓ FAQ</h2>
+        
+        <div class="step-box">
+            <h4>Q: Does my computer need to stay on?</h4>
+            <p>Yes, Hearth Writer runs locally on your computer. For remote access, your computer must be powered on with the server running.</p>
+        </div>
+        
+        <div class="step-box">
+            <h4>Q: Can I access from multiple devices at once?</h4>
+            <p>Yes! Multiple devices can connect to the same Hearth Writer server simultaneously.</p>
+        </div>
+        
+        <div class="step-box">
+            <h4>Q: Is my writing data secure over remote access?</h4>
+            <p>With Tailscale, your connection is encrypted end-to-end. Your data never leaves your devices - it goes directly from your phone to your computer through an encrypted tunnel.</p>
+        </div>
+        
+        <div class="step-box">
+            <h4>Q: What if my IP address changes?</h4>
+            <p>Tailscale gives you a stable IP (100.x.x.x) that never changes, even if your home internet IP changes. This is one of its biggest advantages.</p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Hearth Writer v1.2 "Vertex"</strong></p>
+            <p>
+                <a href="index.html">Home</a> • 
+                <a href="quick-start.html">Quick Start</a> • 
+                <a href="install.html">Installation Wizard</a> • 
+                <a href="https://github.com/brian95240/hearth-writer">GitHub</a>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function showPlatform(platform) {
+            // Hide all content
+            document.querySelectorAll('.platform-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.platform-tab').forEach(el => el.classList.remove('active'));
+            
+            // Show selected
+            document.getElementById(platform).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        function copyCode(elementId, button) {
+            const code = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

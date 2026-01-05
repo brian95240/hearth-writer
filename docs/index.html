@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hearth Writer - A hyper-efficient, local-first authorship engine for novelists, screenwriters, and creative professionals.">
+    <title>Hearth Writer - Local-First Authorship Engine</title>
+    <link rel="icon" type="image/png" href="images/brand_logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #d4692b;
+            --secondary-color: #8b4513;
+            --dark-brown: #3e2723;
+            --light-cream: #f5f5dc;
+            --warm-white: #faf8f3;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--dark-brown);
+            background-color: var(--warm-white);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--dark-brown) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            background: white;
+            padding: 5px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            position: relative;
+            height: 600px;
+            background: url('images/marketing_hero_hd.jpg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(62, 39, 35, 0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .cta-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .pricing {
+            background: var(--light-cream);
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 3rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .features-list {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .features-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .features-list li:before {
+            content: "✓ ";
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        footer {
+            background: var(--dark-brown);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .about-section {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/brand_logo.png" alt="Hearth Writer Logo">
+                <span>Hearth Writer</span>
+            </div>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="https://github.com/brian95240/hearth-writer">GitHub</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Hearth Writer</h1>
+            <p>A hyper-efficient, local-first authorship engine built for creative professionals</p>
+            <a href="#pricing" class="cta-button">Get Started</a>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="features" class="section">
+            <h2>Powerful Features for Every Writer</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>🔒 Privacy Absolute</h3>
+                    <p>No cloud dependencies. All processing happens locally on your machine. Your stories stay yours, completely private and secure.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Collapse-to-Zero Architecture</h3>
+                    <p>Consumes less than 100MB RAM when idle, scales to ~4GB during active AI generation. Efficient resource management for smooth performance.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎭 7 Creative Archetypes</h3>
+                    <p>Specialized support for novelists, screenwriters, comic writers, playwrights, children's authors, TV showrunners, and game designers.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🧠 AI-Powered Writing</h3>
+                    <p>GIL-free AI inference in isolated processes. Local LLM integration with lazy-loading for heavy modules.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎯 Shadow Nodes</h3>
+                    <p>Deep narrative callback system for managing complex stories spanning 1000+ pages with perfect continuity.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎙️ Voice Engine</h3>
+                    <p>Built-in text-to-speech with LRU cache for seamless audio playback of your written content.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section id="pricing" class="pricing">
+        <div class="pricing-container">
+            <h2>Choose Your Plan</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Ronin</h3>
+                    <div class="price">Free</div>
+                    <ul class="features-list">
+                        <li>Local storage</li>
+                        <li>Prose/Screenplay modes</li>
+                        <li>Voice Engine</li>
+                        <li>Linear timeline</li>
+                        <li>Basic writing tools</li>
+                    </ul>
+                    <a href="install.html" class="cta-button">Get Started Free</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Architect</h3>
+                    <div class="price">$19<span class="price-period">/month</span></div>
+                    <ul class="features-list">
+                        <li>All Ronin features</li>
+                        <li>Shadow Nodes (1000+ pages)</li>
+                        <li>Visual Tagging</li>
+                        <li>Multi-LORA mixing</li>
+                        <li>Timeline injection</li>
+                        <li>Advanced AI features</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/28E00cf5P3AB3uKggN0VO02" class="cta-button" target="_blank">Subscribe - $19/mo</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Showrunner</h3>
+                    <div class="price">$49<span class="price-period">/seat</span></div>
+                    <ul class="features-list">
+                        <li>All Architect features</li>
+                        <li>Team Sync</li>
+                        <li>White labeling</li>
+                        <li>Legal indemnity</li>
+                        <li>Custom grammars</li>
+                        <li>Enterprise support</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/aFa7sE1eZ4EF4yOfcJ0VO03" class="cta-button" target="_blank">Subscribe - $49/mo</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 60px; padding: 40px; background: rgba(212, 105, 43, 0.1); border: 2px solid var(--primary-color); border-radius: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h3 style="color: var(--primary-color); text-align: center; margin-top: 0;">Already Have a License?</h3>
+                <p style="text-align: center; color: var(--dark-brown); margin-bottom: 25px;">Enter your license key to start the easy installation wizard:</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                    <input type="text" id="license-key-input" placeholder="HRTH_ARCHITECT_xxxxx or HRTH_SHOWRUNNER_xxxxx" style="flex: 1; min-width: 250px; padding: 15px; font-family: 'Courier New', monospace; font-size: 0.9em; border: 2px solid var(--secondary-color); border-radius: 5px; background: white;">
+                    <button onclick="activateLicense()" style="padding: 15px 30px; background: var(--primary-color); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1em;">Activate</button>
+                </div>
+                <p id="activation-message" style="text-align: center; margin-top: 15px; font-size: 0.9em; color: var(--secondary-color);"></p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section id="about" class="section">
+            <h2>About Hearth Writer</h2>
+            <div class="about-section">
+                <img src="images/cabin_interior.jpg" alt="Cozy writing environment" class="about-image">
+                <div>
+                    <p style="font-size: 1.2rem; line-height: 1.8;">
+                        Hearth Writer is a revolutionary authorship engine designed for writers who value privacy, performance, and creative freedom. Built on a Collapse-to-Zero architecture, it provides professional-grade writing tools while maintaining minimal resource usage.
+                    </p>
+                    <p style="font-size: 1.2rem; line-height: 1.8; margin-top: 1.5rem;">
+                        Whether you're crafting a novel, screenplay, comic book, or any other creative work, Hearth Writer adapts to your specific needs with specialized archetypes and advanced features like Shadow Nodes for narrative continuity and local AI integration for enhanced creativity.
+                    </p>
+                    <p style="font-size: 1.2rem; line-height: 1.8; margin-top: 1.5rem;">
+                        With tiered licensing options from free to enterprise, Hearth Writer grows with your creative journey, offering the tools you need at every stage of your writing career.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <h2>Get Started Today</h2>
+            <div style="text-align: center; font-size: 1.2rem;">
+                <p>Ready to transform your writing experience?</p>
+                <p style="margin-top: 1rem;">
+                    <a href="https://github.com/brian95240/hearth-writer" class="cta-button">Download from GitHub</a>
+                </p>
+                <p style="margin-top: 2rem; color: #666;">
+                    For enterprise inquiries and custom licensing, please visit our GitHub repository.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Hearth Writer. All rights reserved.</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://github.com/brian95240/hearth-writer">GitHub Repository</a> | 
+            <a href="https://github.com/brian95240/hearth-writer/blob/main/README.md">Documentation</a> |
+            <a href="remote-access.html">Remote Access</a> |
+            <a href="https://billing.stripe.com/p/login/14A6oAcXHfjje9o3u10VO00" target="_blank">Manage Subscription</a>
+        </p>
+    </footer>
+    
+    <script>
+        function activateLicense() {
+            const input = document.getElementById('license-key-input');
+            const message = document.getElementById('activation-message');
+            const key = input.value.trim().toUpperCase();
+            
+            if (!key) {
+                message.style.color = 'var(--primary-color)';
+                message.textContent = 'Please enter your license key';
+                return;
+            }
+            
+            if (key.startsWith('HRTH_ARCHITECT_') || key.startsWith('HRTH_SHOWRUNNER_')) {
+                message.style.color = 'var(--green)';
+                message.textContent = '✓ Redirecting to installation wizard...';
+                setTimeout(() => {
+                    window.location.href = 'install.html?key=' + encodeURIComponent(document.getElementById('license-key-input').value.trim());
+                }, 1000);
+            } else {
+                message.style.color = 'var(--primary-color)';
+                message.textContent = '✗ Invalid license key format. Please check and try again.';
+            }
+        }
+        
+        // Allow Enter key to activate
+        document.getElementById('license-key-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                activateLicense();
+            }
+        });
+    </script>
+</body>
+</html>

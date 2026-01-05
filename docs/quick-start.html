@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Guide | Hearth Writer</title>
+    <style>
+        :root { --bg: #0a0a0a; --text: #e0e0e0; --accent: #ff4d00; --dim: #444; --gold: #ffd700; --green: #00ff41; }
+        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; padding: 40px 20px; line-height: 1.8; max-width: 1000px; margin: 0 auto; }
+        h1 { color: var(--gold); letter-spacing: 2px; margin-bottom: 20px; font-size: 2.5em; }
+        h2 { color: var(--accent); margin-top: 40px; border-bottom: 2px solid var(--dim); padding-bottom: 10px; }
+        h3 { color: var(--green); margin-top: 30px; }
+        p { color: #ccc; font-size: 1.1em; }
+        
+        .step-box { 
+            background: #111; 
+            border: 2px solid var(--green); 
+            padding: 30px; 
+            margin: 25px 0; 
+            border-radius: 5px;
+        }
+        .step-box h3 { margin-top: 0; color: var(--gold); }
+        .step-box code { 
+            background: #1a1a1a; 
+            padding: 15px; 
+            display: block; 
+            margin-top: 15px;
+            color: var(--green);
+            border-left: 3px solid var(--accent);
+            font-size: 1em;
+            overflow-x: auto;
+        }
+        .step-box p { font-size: 1em; }
+        
+        .note {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--gold);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .note strong { color: var(--gold); }
+        
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .platform-btn {
+            background: var(--dim);
+            color: var(--text);
+            padding: 20px;
+            cursor: pointer;
+            border: 2px solid var(--dim);
+            font-family: inherit;
+            font-size: 1.1em;
+            text-align: center;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+        .platform-btn:hover {
+            border-color: var(--accent);
+            background: #1a1a1a;
+        }
+        .platform-btn.active {
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+            border-color: var(--accent);
+        }
+        .platform-btn .icon {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .platform-btn .devices {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .platform-btn.active .devices {
+            color: #333;
+        }
+        .platform-content {
+            display: none;
+        }
+        .platform-content.active {
+            display: block;
+        }
+        .mobile-notice {
+            background: rgba(255, 77, 0, 0.1);
+            border: 2px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .mobile-notice strong { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <h1>🔥 HEARTH WRITER QUICK START</h1>
+    <p>Welcome! Let's get you up and running in 3 simple steps.</p>
+
+    <div class="note">
+        <strong>📧 Have your license key ready!</strong> You should have received it after purchase. It looks like: <code style="background: #1a1a1a; padding: 5px;">HRTH_ARCHITECT_xxxxx</code> or <code style="background: #1a1a1a; padding: 5px;">HRTH_SHOWRUNNER_xxxxx</code>
+    </div>
+
+    <h2>STEP 1: Choose Your Platform</h2>
+    <p>Select your device to see installation instructions:</p>
+
+    <div class="platform-grid">
+        <button class="platform-btn active" onclick="showPlatform('mac')">
+            <span class="icon">🍎</span>
+            <strong>macOS</strong>
+            <div class="devices">MacBook, iMac, Mac Mini</div>
+        </button>
+        <button class="platform-btn" onclick="showPlatform('linux')">
+            <span class="icon">🐧</span>
+            <strong>Linux</strong>
+            <div class="devices">Ubuntu, Debian, Raspberry Pi</div>
+        </button>
+        <button class="platform-btn" onclick="showPlatform('windows')">
+            <span class="icon">🪟</span>
+            <strong>Windows</strong>
+            <div class="devices">Windows 10/11, WSL</div>
+        </button>
+        <button class="platform-btn" onclick="showPlatform('mobile')">
+            <span class="icon">📱</span>
+            <strong>Mobile</strong>
+            <div class="devices">iPhone, Android</div>
+        </button>
+    </div>
+
+    <div id="mac-content" class="platform-content active">
+        <div class="step-box">
+            <h3>🍎 macOS Installation</h3>
+            <p><strong>Supported:</strong> macOS 10.15+ (Catalina and newer)</p>
+            <p><strong>Devices:</strong> MacBook Pro, MacBook Air, iMac, Mac Mini, Mac Studio</p>
+        </div>
+
+        <div class="step-box">
+            <h3>Option A: One-Line Install (Recommended)</h3>
+            <p>Open Terminal (Applications → Utilities → Terminal) and run:</p>
+            <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+
+        <div class="step-box">
+            <h3>Option B: Manual Install</h3>
+            <p>1. Open Terminal</p>
+            <p>2. Clone the repository:</p>
+            <code>git clone https://github.com/brian95240/hearth-writer.git
+cd hearth-writer</code>
+            <p>3. Run setup:</p>
+            <code>./setup.sh</code>
+        </div>
+    </div>
+
+    <div id="linux-content" class="platform-content">
+        <div class="step-box">
+            <h3>🐧 Linux Installation</h3>
+            <p><strong>Supported:</strong> Ubuntu 20.04+, Debian 11+, Fedora 35+, Raspberry Pi OS</p>
+            <p><strong>Devices:</strong> Desktop PCs, laptops, Raspberry Pi 4/5, servers</p>
+        </div>
+
+        <div class="step-box">
+            <h3>Option A: One-Line Install (Recommended)</h3>
+            <p>Open your terminal and run:</p>
+            <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+
+        <div class="step-box">
+            <h3>Option B: Manual Install</h3>
+            <p>1. Open terminal</p>
+            <p>2. Clone the repository:</p>
+            <code>git clone https://github.com/brian95240/hearth-writer.git
+cd hearth-writer</code>
+            <p>3. Run setup:</p>
+            <code>./setup.sh</code>
+        </div>
+
+        <div class="note">
+            <strong>🍓 Raspberry Pi Users:</strong> Hearth Writer runs on Raspberry Pi 4/5 with 4GB+ RAM. Performance will be slower than desktop, but fully functional for writing and editing.
+        </div>
+    </div>
+
+    <div id="windows-content" class="platform-content">
+        <div class="step-box">
+            <h3>🪟 Windows Installation</h3>
+            <p><strong>Supported:</strong> Windows 10 (version 2004+) and Windows 11</p>
+            <p><strong>Method:</strong> WSL (Windows Subsystem for Linux)</p>
+        </div>
+
+        <div class="step-box">
+            <h3>Install via WSL (Recommended)</h3>
+            <p>1. Open PowerShell as Administrator (right-click → Run as Administrator)</p>
+            <p>2. Install WSL:</p>
+            <code>wsl --install</code>
+            <p>3. Restart your computer when prompted</p>
+            <p>4. Open "Ubuntu" from Start Menu (installed automatically)</p>
+            <p>5. Create a username and password when prompted</p>
+            <p>6. Run the install command:</p>
+            <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+
+        <div class="note">
+            <strong>Why WSL?</strong> Hearth Writer is built for Unix-like systems. WSL provides a full Linux environment on Windows with excellent performance and compatibility.
+        </div>
+    </div>
+
+    <div id="mobile-content" class="platform-content">
+        <div class="mobile-notice">
+            <h3>📱 Mobile Device Support</h3>
+            <p><strong>⚠️ Native mobile apps are not yet available.</strong></p>
+            <p>Hearth Writer is currently designed for desktop/laptop use where you have full access to a terminal and file system.</p>
+        </div>
+
+        <div class="step-box">
+            <h3>Alternative Options for Mobile Users:</h3>
+            <p><strong>Option 1: Remote Access</strong></p>
+            <p>Install Hearth Writer on your desktop/laptop, then access it remotely from your mobile device using:</p>
+            <ul style="color: #ccc; margin-left: 20px;">
+                <li>SSH clients (Termius, Blink Shell for iOS)</li>
+                <li>Remote desktop apps</li>
+                <li>Browser access to localhost (if on same network)</li>
+            </ul>
+
+            <p style="margin-top: 20px;"><strong>Option 2: Cloud Instance</strong></p>
+            <p>Run Hearth Writer on a cloud server (AWS, DigitalOcean, etc.) and access via mobile browser.</p>
+
+            <p style="margin-top: 20px;"><strong>Future Plans:</strong></p>
+            <p>Native iOS and Android apps are on the roadmap for future releases.</p>
+        </div>
+    </div>
+
+    <h2>STEP 2: Activate Your License</h2>
+
+    <div class="step-box">
+        <h3>Set Your License Key</h3>
+        <p>In your terminal (or WSL terminal for Windows), paste your license key like this:</p>
+        <code>export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"</code>
+        <p style="margin-top: 15px;"><strong>Important:</strong> Replace <code>YOUR_KEY_HERE</code> with your actual license key from your purchase confirmation!</p>
+    </div>
+
+    <div class="step-box">
+        <h3>Make It Permanent (Recommended)</h3>
+        <p>So you don't have to enter it every time, add it to your shell profile:</p>
+        
+        <p><strong>For Linux/WSL (bash):</strong></p>
+        <code>echo 'export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"' >> ~/.bashrc
+source ~/.bashrc</code>
+
+        <p style="margin-top: 20px;"><strong>For macOS (zsh):</strong></p>
+        <code>echo 'export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"' >> ~/.zshrc
+source ~/.zshrc</code>
+    </div>
+
+    <h2>STEP 3: Launch Hearth Writer</h2>
+
+    <div class="step-box">
+        <h3>Start the Application</h3>
+        <code>cd hearth-writer
+./start.sh</code>
+        <p style="margin-top: 15px;">The application will open in your browser at <code>http://localhost:5000</code></p>
+        <p>You should see your license tier confirmed in the console output.</p>
+    </div>
+
+    <div class="note">
+        <strong>✅ You're all set!</strong> Hearth Writer should now be running with your paid features unlocked. Check the console output to confirm your license tier is recognized.
+    </div>
+
+    <h2>📱 Mobile & Remote Access</h2>
+    <div class="step-box">
+        <h3>Access from Your Phone (Same WiFi)</h3>
+        <p>Find your computer's IP address:</p>
+        <code>hostname -I</code>
+        <p style="margin-top: 10px;">Then on your phone's browser, go to: <code>http://YOUR_IP:8000</code></p>
+        <p>Example: <code>http://192.168.1.105:8000</code></p>
+    </div>
+    <div class="step-box">
+        <h3>Access from Anywhere (Traveling)</h3>
+        <p>Use <strong>Tailscale</strong> (free) to securely access Hearth Writer from anywhere in the world.</p>
+        <p style="margin-top: 10px;">📖 <a href="remote-access.html" style="color: var(--accent); font-weight: bold;">Full Remote Access Guide →</a></p>
+    </div>
+
+    <h2>Troubleshooting</h2>
+
+    <div class="step-box">
+        <h3>License Not Recognized</h3>
+        <p>Verify your key is set correctly:</p>
+        <code>echo $HEARTH_LICENSE_KEY</code>
+        <p style="margin-top: 10px;">It should display your full license key starting with <code>HRTH_</code></p>
+    </div>
+
+    <div class="step-box">
+        <h3>Port Already in Use</h3>
+        <code>pkill -f "python.*app.py"
+./start.sh</code>
+    </div>
+
+    <div class="step-box">
+        <h3>Need Help?</h3>
+        <p>📖 Full documentation: <a href="https://github.com/brian95240/hearth-writer" style="color: var(--accent);">GitHub Repository</a></p>
+        <p>🐛 Report issues: <a href="https://github.com/brian95240/hearth-writer/issues" style="color: var(--accent);">Issue Tracker</a></p>
+    </div>
+
+    <script>
+        function showPlatform(platform) {
+            // Hide all content
+            document.querySelectorAll('.platform-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.platform-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById(platform + '-content').classList.add('active');
+            event.target.closest('.platform-btn').classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
