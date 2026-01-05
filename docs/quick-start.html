@@ -6,7 +6,7 @@
     <title>Quick Start Guide | Hearth Writer</title>
     <style>
         :root { --bg: #0a0a0a; --text: #e0e0e0; --accent: #ff4d00; --dim: #444; --gold: #ffd700; --green: #00ff41; }
-        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; padding: 40px 20px; line-height: 1.8; max-width: 900px; margin: 0 auto; }
+        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; padding: 40px 20px; line-height: 1.8; max-width: 1000px; margin: 0 auto; }
         h1 { color: var(--gold); letter-spacing: 2px; margin-bottom: 20px; font-size: 2.5em; }
         h2 { color: var(--accent); margin-top: 40px; border-bottom: 2px solid var(--dim); padding-bottom: 10px; }
         h3 { color: var(--green); margin-top: 30px; }
@@ -41,24 +41,47 @@
         }
         .note strong { color: var(--gold); }
         
-        .platform-tabs {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
         }
-        .platform-tab {
+        .platform-btn {
             background: var(--dim);
             color: var(--text);
-            padding: 10px 20px;
+            padding: 20px;
             cursor: pointer;
-            border: none;
+            border: 2px solid var(--dim);
             font-family: inherit;
-            font-size: 1em;
+            font-size: 1.1em;
+            text-align: center;
+            transition: all 0.3s;
+            border-radius: 5px;
         }
-        .platform-tab.active {
+        .platform-btn:hover {
+            border-color: var(--accent);
+            background: #1a1a1a;
+        }
+        .platform-btn.active {
             background: var(--accent);
             color: #000;
             font-weight: bold;
+            border-color: var(--accent);
+        }
+        .platform-btn .icon {
+            font-size: 2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .platform-btn .devices {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .platform-btn.active .devices {
+            color: #333;
         }
         .platform-content {
             display: none;
@@ -66,6 +89,14 @@
         .platform-content.active {
             display: block;
         }
+        .mobile-notice {
+            background: rgba(255, 77, 0, 0.1);
+            border: 2px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .mobile-notice strong { color: var(--accent); }
     </style>
 </head>
 <body>
@@ -77,18 +108,42 @@
         <strong>📧 Have your license key ready!</strong> You should have received it after purchase. It looks like: <code style="background: #1a1a1a; padding: 5px;">HRTH_ARCHITECT_xxxxx</code> or <code style="background: #1a1a1a; padding: 5px;">HRTH_SHOWRUNNER_xxxxx</code>
     </div>
 
-    <h2>STEP 1: Install Hearth Writer</h2>
+    <h2>STEP 1: Choose Your Platform</h2>
+    <p>Select your device to see installation instructions:</p>
 
-    <div class="platform-tabs">
-        <button class="platform-tab active" onclick="showPlatform('mac')">macOS</button>
-        <button class="platform-tab" onclick="showPlatform('linux')">Linux</button>
-        <button class="platform-tab" onclick="showPlatform('windows')">Windows</button>
+    <div class="platform-grid">
+        <button class="platform-btn active" onclick="showPlatform('mac')">
+            <span class="icon">🍎</span>
+            <strong>macOS</strong>
+            <div class="devices">MacBook, iMac, Mac Mini</div>
+        </button>
+        <button class="platform-btn" onclick="showPlatform('linux')">
+            <span class="icon">🐧</span>
+            <strong>Linux</strong>
+            <div class="devices">Ubuntu, Debian, Raspberry Pi</div>
+        </button>
+        <button class="platform-btn" onclick="showPlatform('windows')">
+            <span class="icon">🪟</span>
+            <strong>Windows</strong>
+            <div class="devices">Windows 10/11, WSL</div>
+        </button>
+        <button class="platform-btn" onclick="showPlatform('mobile')">
+            <span class="icon">📱</span>
+            <strong>Mobile</strong>
+            <div class="devices">iPhone, Android</div>
+        </button>
     </div>
 
     <div id="mac-content" class="platform-content active">
         <div class="step-box">
+            <h3>🍎 macOS Installation</h3>
+            <p><strong>Supported:</strong> macOS 10.15+ (Catalina and newer)</p>
+            <p><strong>Devices:</strong> MacBook Pro, MacBook Air, iMac, Mac Mini, Mac Studio</p>
+        </div>
+
+        <div class="step-box">
             <h3>Option A: One-Line Install (Recommended)</h3>
-            <p>Open Terminal and run:</p>
+            <p>Open Terminal (Applications → Utilities → Terminal) and run:</p>
             <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
         </div>
 
@@ -105,6 +160,12 @@ cd hearth-writer</code>
 
     <div id="linux-content" class="platform-content">
         <div class="step-box">
+            <h3>🐧 Linux Installation</h3>
+            <p><strong>Supported:</strong> Ubuntu 20.04+, Debian 11+, Fedora 35+, Raspberry Pi OS</p>
+            <p><strong>Devices:</strong> Desktop PCs, laptops, Raspberry Pi 4/5, servers</p>
+        </div>
+
+        <div class="step-box">
             <h3>Option A: One-Line Install (Recommended)</h3>
             <p>Open your terminal and run:</p>
             <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
@@ -119,17 +180,58 @@ cd hearth-writer</code>
             <p>3. Run setup:</p>
             <code>./setup.sh</code>
         </div>
+
+        <div class="note">
+            <strong>🍓 Raspberry Pi Users:</strong> Hearth Writer runs on Raspberry Pi 4/5 with 4GB+ RAM. Performance will be slower than desktop, but fully functional for writing and editing.
+        </div>
     </div>
 
     <div id="windows-content" class="platform-content">
         <div class="step-box">
-            <h3>Install via WSL (Windows Subsystem for Linux)</h3>
-            <p>1. Open PowerShell as Administrator and install WSL:</p>
+            <h3>🪟 Windows Installation</h3>
+            <p><strong>Supported:</strong> Windows 10 (version 2004+) and Windows 11</p>
+            <p><strong>Method:</strong> WSL (Windows Subsystem for Linux)</p>
+        </div>
+
+        <div class="step-box">
+            <h3>Install via WSL (Recommended)</h3>
+            <p>1. Open PowerShell as Administrator (right-click → Run as Administrator)</p>
+            <p>2. Install WSL:</p>
             <code>wsl --install</code>
-            <p>2. Restart your computer</p>
-            <p>3. Open Ubuntu from Start Menu</p>
-            <p>4. Run the install command:</p>
+            <p>3. Restart your computer when prompted</p>
+            <p>4. Open "Ubuntu" from Start Menu (installed automatically)</p>
+            <p>5. Create a username and password when prompted</p>
+            <p>6. Run the install command:</p>
             <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+
+        <div class="note">
+            <strong>Why WSL?</strong> Hearth Writer is built for Unix-like systems. WSL provides a full Linux environment on Windows with excellent performance and compatibility.
+        </div>
+    </div>
+
+    <div id="mobile-content" class="platform-content">
+        <div class="mobile-notice">
+            <h3>📱 Mobile Device Support</h3>
+            <p><strong>⚠️ Native mobile apps are not yet available.</strong></p>
+            <p>Hearth Writer is currently designed for desktop/laptop use where you have full access to a terminal and file system.</p>
+        </div>
+
+        <div class="step-box">
+            <h3>Alternative Options for Mobile Users:</h3>
+            <p><strong>Option 1: Remote Access</strong></p>
+            <p>Install Hearth Writer on your desktop/laptop, then access it remotely from your mobile device using:</p>
+            <ul style="color: #ccc; margin-left: 20px;">
+                <li>SSH clients (Termius, Blink Shell for iOS)</li>
+                <li>Remote desktop apps</li>
+                <li>Browser access to localhost (if on same network)</li>
+            </ul>
+
+            <p style="margin-top: 20px;"><strong>Option 2: Cloud Instance</strong></p>
+            <p>Run Hearth Writer on a cloud server (AWS, DigitalOcean, etc.) and access via mobile browser.</p>
+
+            <p style="margin-top: 20px;"><strong>Future Plans:</strong></p>
+            <p>Native iOS and Android apps are on the roadmap for future releases.</p>
         </div>
     </div>
 
@@ -137,17 +239,22 @@ cd hearth-writer</code>
 
     <div class="step-box">
         <h3>Set Your License Key</h3>
-        <p>In your terminal, paste your license key like this:</p>
+        <p>In your terminal (or WSL terminal for Windows), paste your license key like this:</p>
         <code>export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"</code>
         <p style="margin-top: 15px;"><strong>Important:</strong> Replace <code>YOUR_KEY_HERE</code> with your actual license key from your purchase confirmation!</p>
     </div>
 
     <div class="step-box">
-        <h3>Make It Permanent (Optional but Recommended)</h3>
-        <p>So you don't have to enter it every time:</p>
+        <h3>Make It Permanent (Recommended)</h3>
+        <p>So you don't have to enter it every time, add it to your shell profile:</p>
+        
+        <p><strong>For Linux/WSL (bash):</strong></p>
         <code>echo 'export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"' >> ~/.bashrc
 source ~/.bashrc</code>
-        <p style="margin-top: 15px;">For macOS with zsh, use <code>~/.zshrc</code> instead of <code>~/.bashrc</code></p>
+
+        <p style="margin-top: 20px;"><strong>For macOS (zsh):</strong></p>
+        <code>echo 'export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"' >> ~/.zshrc
+source ~/.zshrc</code>
     </div>
 
     <h2>STEP 3: Launch Hearth Writer</h2>
@@ -157,6 +264,7 @@ source ~/.bashrc</code>
         <code>cd hearth-writer
 ./start.sh</code>
         <p style="margin-top: 15px;">The application will open in your browser at <code>http://localhost:5000</code></p>
+        <p>You should see your license tier confirmed in the console output.</p>
     </div>
 
     <div class="note">
@@ -190,13 +298,13 @@ source ~/.bashrc</code>
             document.querySelectorAll('.platform-content').forEach(el => {
                 el.classList.remove('active');
             });
-            document.querySelectorAll('.platform-tab').forEach(el => {
+            document.querySelectorAll('.platform-btn').forEach(el => {
                 el.classList.remove('active');
             });
             
             // Show selected content
             document.getElementById(platform + '-content').classList.add('active');
-            event.target.classList.add('active');
+            event.target.closest('.platform-btn').classList.add('active');
         }
     </script>
 

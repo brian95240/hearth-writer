@@ -403,6 +403,16 @@
                     <a href="https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01" class="cta-button" target="_blank">Get Showrunner</a>
                 </div>
             </div>
+            
+            <div style="margin-top: 60px; padding: 40px; background: rgba(212, 105, 43, 0.1); border: 2px solid var(--primary-color); border-radius: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <h3 style="color: var(--primary-color); text-align: center; margin-top: 0;">Already Purchased?</h3>
+                <p style="text-align: center; color: var(--dark-brown); margin-bottom: 25px;">Enter your license key to access your welcome page:</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                    <input type="text" id="license-key-input" placeholder="HRTH_ARCHITECT_xxxxx or HRTH_SHOWRUNNER_xxxxx" style="flex: 1; min-width: 250px; padding: 15px; font-family: 'Courier New', monospace; font-size: 0.9em; border: 2px solid var(--secondary-color); border-radius: 5px; background: white;">
+                    <button onclick="activateLicense()" style="padding: 15px 30px; background: var(--primary-color); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1em;">Activate</button>
+                </div>
+                <p id="activation-message" style="text-align: center; margin-top: 15px; font-size: 0.9em; color: var(--secondary-color);"></p>
+            </div>
         </div>
     </section>
 
@@ -446,5 +456,43 @@
             <a href="https://github.com/brian95240/hearth-writer/blob/main/README.md">Documentation</a>
         </p>
     </footer>
+    
+    <script>
+        function activateLicense() {
+            const input = document.getElementById('license-key-input');
+            const message = document.getElementById('activation-message');
+            const key = input.value.trim().toUpperCase();
+            
+            if (!key) {
+                message.style.color = 'var(--primary-color)';
+                message.textContent = 'Please enter your license key';
+                return;
+            }
+            
+            if (key.startsWith('HRTH_ARCHITECT_')) {
+                message.style.color = 'var(--green)';
+                message.textContent = '✓ Redirecting to Architect welcome page...';
+                setTimeout(() => {
+                    window.location.href = 'welcome_architect.html';
+                }, 1000);
+            } else if (key.startsWith('HRTH_SHOWRUNNER_')) {
+                message.style.color = 'var(--green)';
+                message.textContent = '✓ Redirecting to Showrunner welcome page...';
+                setTimeout(() => {
+                    window.location.href = 'welcome_showrunner.html';
+                }, 1000);
+            } else {
+                message.style.color = 'var(--primary-color)';
+                message.textContent = '✗ Invalid license key format. Please check and try again.';
+            }
+        }
+        
+        // Allow Enter key to activate
+        document.getElementById('license-key-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                activateLicense();
+            }
+        });
+    </script>
 </body>
 </html>
