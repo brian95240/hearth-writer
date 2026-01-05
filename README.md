@@ -78,21 +78,25 @@ python test_suite.py
 - Prose & Screenplay modes
 - Voice Engine (cached TTS)
 - Linear timeline
-
 ### Architect ($19/mo)
+
 - Commercial license
 - **Shadow Nodes** (complex plots)
 - **Visual Tagging** (comics)
 - Multi-LORA mixing
 - Timeline injection
 
+**[Purchase Architect License →](https://buy.stripe.com/14A6oAcXHfjje9o3u10VO00)**
+
 ### Showrunner ($49/seat)
+
 - Enterprise license
 - Team Sync & Collaboration
 - White labeling
 - Legal indemnity
 - Custom grammar files
 
+**[Purchase Showrunner License →](https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01)**
 ### Activate License
 
 ```bash
