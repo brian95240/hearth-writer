@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Guide | Hearth Writer</title>
+    <style>
+        :root { --bg: #0a0a0a; --text: #e0e0e0; --accent: #ff4d00; --dim: #444; --gold: #ffd700; --green: #00ff41; }
+        body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; padding: 40px 20px; line-height: 1.8; max-width: 900px; margin: 0 auto; }
+        h1 { color: var(--gold); letter-spacing: 2px; margin-bottom: 20px; font-size: 2.5em; }
+        h2 { color: var(--accent); margin-top: 40px; border-bottom: 2px solid var(--dim); padding-bottom: 10px; }
+        h3 { color: var(--green); margin-top: 30px; }
+        p { color: #ccc; font-size: 1.1em; }
+        
+        .step-box { 
+            background: #111; 
+            border: 2px solid var(--green); 
+            padding: 30px; 
+            margin: 25px 0; 
+            border-radius: 5px;
+        }
+        .step-box h3 { margin-top: 0; color: var(--gold); }
+        .step-box code { 
+            background: #1a1a1a; 
+            padding: 15px; 
+            display: block; 
+            margin-top: 15px;
+            color: var(--green);
+            border-left: 3px solid var(--accent);
+            font-size: 1em;
+            overflow-x: auto;
+        }
+        .step-box p { font-size: 1em; }
+        
+        .note {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--gold);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .note strong { color: var(--gold); }
+        
+        .platform-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .platform-tab {
+            background: var(--dim);
+            color: var(--text);
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            font-size: 1em;
+        }
+        .platform-tab.active {
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+        }
+        .platform-content {
+            display: none;
+        }
+        .platform-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🔥 HEARTH WRITER QUICK START</h1>
+    <p>Welcome! Let's get you up and running in 3 simple steps.</p>
+
+    <div class="note">
+        <strong>📧 Have your license key ready!</strong> You should have received it after purchase. It looks like: <code style="background: #1a1a1a; padding: 5px;">HRTH_ARCHITECT_xxxxx</code> or <code style="background: #1a1a1a; padding: 5px;">HRTH_SHOWRUNNER_xxxxx</code>
+    </div>
+
+    <h2>STEP 1: Install Hearth Writer</h2>
+
+    <div class="platform-tabs">
+        <button class="platform-tab active" onclick="showPlatform('mac')">macOS</button>
+        <button class="platform-tab" onclick="showPlatform('linux')">Linux</button>
+        <button class="platform-tab" onclick="showPlatform('windows')">Windows</button>
+    </div>
+
+    <div id="mac-content" class="platform-content active">
+        <div class="step-box">
+            <h3>Option A: One-Line Install (Recommended)</h3>
+            <p>Open Terminal and run:</p>
+            <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+
+        <div class="step-box">
+            <h3>Option B: Manual Install</h3>
+            <p>1. Open Terminal</p>
+            <p>2. Clone the repository:</p>
+            <code>git clone https://github.com/brian95240/hearth-writer.git
+cd hearth-writer</code>
+            <p>3. Run setup:</p>
+            <code>./setup.sh</code>
+        </div>
+    </div>
+
+    <div id="linux-content" class="platform-content">
+        <div class="step-box">
+            <h3>Option A: One-Line Install (Recommended)</h3>
+            <p>Open your terminal and run:</p>
+            <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+
+        <div class="step-box">
+            <h3>Option B: Manual Install</h3>
+            <p>1. Open terminal</p>
+            <p>2. Clone the repository:</p>
+            <code>git clone https://github.com/brian95240/hearth-writer.git
+cd hearth-writer</code>
+            <p>3. Run setup:</p>
+            <code>./setup.sh</code>
+        </div>
+    </div>
+
+    <div id="windows-content" class="platform-content">
+        <div class="step-box">
+            <h3>Install via WSL (Windows Subsystem for Linux)</h3>
+            <p>1. Open PowerShell as Administrator and install WSL:</p>
+            <code>wsl --install</code>
+            <p>2. Restart your computer</p>
+            <p>3. Open Ubuntu from Start Menu</p>
+            <p>4. Run the install command:</p>
+            <code>curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+        </div>
+    </div>
+
+    <h2>STEP 2: Activate Your License</h2>
+
+    <div class="step-box">
+        <h3>Set Your License Key</h3>
+        <p>In your terminal, paste your license key like this:</p>
+        <code>export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"</code>
+        <p style="margin-top: 15px;"><strong>Important:</strong> Replace <code>YOUR_KEY_HERE</code> with your actual license key from your purchase confirmation!</p>
+    </div>
+
+    <div class="step-box">
+        <h3>Make It Permanent (Optional but Recommended)</h3>
+        <p>So you don't have to enter it every time:</p>
+        <code>echo 'export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_YOUR_KEY_HERE"' >> ~/.bashrc
+source ~/.bashrc</code>
+        <p style="margin-top: 15px;">For macOS with zsh, use <code>~/.zshrc</code> instead of <code>~/.bashrc</code></p>
+    </div>
+
+    <h2>STEP 3: Launch Hearth Writer</h2>
+
+    <div class="step-box">
+        <h3>Start the Application</h3>
+        <code>cd hearth-writer
+./start.sh</code>
+        <p style="margin-top: 15px;">The application will open in your browser at <code>http://localhost:5000</code></p>
+    </div>
+
+    <div class="note">
+        <strong>✅ You're all set!</strong> Hearth Writer should now be running with your paid features unlocked. Check the console output to confirm your license tier is recognized.
+    </div>
+
+    <h2>Troubleshooting</h2>
+
+    <div class="step-box">
+        <h3>License Not Recognized</h3>
+        <p>Verify your key is set correctly:</p>
+        <code>echo $HEARTH_LICENSE_KEY</code>
+        <p style="margin-top: 10px;">It should display your full license key starting with <code>HRTH_</code></p>
+    </div>
+
+    <div class="step-box">
+        <h3>Port Already in Use</h3>
+        <code>pkill -f "python.*app.py"
+./start.sh</code>
+    </div>
+
+    <div class="step-box">
+        <h3>Need Help?</h3>
+        <p>📖 Full documentation: <a href="https://github.com/brian95240/hearth-writer" style="color: var(--accent);">GitHub Repository</a></p>
+        <p>🐛 Report issues: <a href="https://github.com/brian95240/hearth-writer/issues" style="color: var(--accent);">Issue Tracker</a></p>
+    </div>
+
+    <script>
+        function showPlatform(platform) {
+            // Hide all content
+            document.querySelectorAll('.platform-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.platform-tab').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById(platform + '-content').classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
