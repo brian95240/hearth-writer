@@ -1,6 +1,7 @@
 # Hearth Writer - Stripe Payment System Setup
 
 > **Status:** ✅ LIVE - Fully configured and ready to accept payments  
+> **Last Updated:** January 5, 2026  
 > **Strategy:** Zero-code, fully automated payment processing using Stripe Payment Links with professional branding.
 
 ---
@@ -12,8 +13,9 @@ The payment system allows Hearth Writer to sell licenses 24/7 without manual int
 1. **Customer** clicks payment link on landing page
 2. **Stripe Payment Link** handles checkout (no code required)
 3. **Stripe** processes payment, shows "HEARTH WRITER" on credit card statement
-4. **Customer** receives confirmation and license key
-5. **Customer** activates Hearth Writer
+4. **Customer** receives confirmation and is redirected to welcome page
+5. **Customer** uses installation wizard to activate Hearth Writer
+6. **Customer** can manage subscription via Customer Portal
 
 ---
 
@@ -21,81 +23,107 @@ The payment system allows Hearth Writer to sell licenses 24/7 without manual int
 
 ### Stripe Account Details
 
-- **Account ID:** `acct_1RZUk82KS3i05iH4`
-- **Mode:** Live
-- **Statement Descriptor:** `HEARTH WRITER`
-- **Business Website:** https://brian95240.github.io/hearth-writer/
+| Field | Value |
+|-------|-------|
+| **Account ID** | `acct_1RZUk82KS3i05iH4` |
+| **Mode** | Live |
+| **Statement Descriptor** | `HEARTH WRITER` |
+| **Business Website** | https://brian95240.github.io/hearth-writer/ |
 
-### Product Configuration
+---
 
-| Item                | Details                                                                                                 | Stripe ID                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------- |
-| **Product Name**    | Hearth Writer                                                                                           | `prod_Tjb2XJH66ThMPT`      |
-| **Description**     | A hyper-efficient, local-first authorship engine with Collapse-to-Zero architecture & 7 creative archetypes. | N/A                        |
+## Products & Pricing (Separate Products for Plan Switching)
 
-### Pricing Tiers
+> **Important:** Products are set up as separate items to enable plan switching in the Customer Portal.
 
-| Tier         | Price      | Billing Cycle | Stripe Price ID            | Payment Link                                         |
-| ------------ | ---------- | ------------- | -------------------------- | ---------------------------------------------------- |
-| **Architect**  | $19.00 USD | Monthly       | `price_1Sm7qc2KS3i05iH471M0HS2X` | https://buy.stripe.com/14A6oAcXHfjje9o3u10VO00 |
-| **Showrunner** | $49.00 USD | Monthly       | `price_1Sm7qg2KS3i05iH4Y5R0EMU9` | https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01 |
+### Hearth Writer - Architect ($19/month)
+
+| Field | Value |
+|-------|-------|
+| **Product ID** | `prod_TjlOOiXNSPjC2f` |
+| **Price ID** | `price_1SmHrr2KS3i05iH4ALz36ZZj` |
+| **Payment Link** | https://buy.stripe.com/28E00cf5P3AB3uKggN0VO02 |
+| **Features** | Multi-LORA mixing, Timeline injection, Advanced AI features |
+
+### Hearth Writer - Showrunner ($49/month)
+
+| Field | Value |
+|-------|-------|
+| **Product ID** | `prod_TjlOL5m0hKvzHb` |
+| **Price ID** | `price_1SmHs32KS3i05iH4Yu7AXIX1` |
+| **Payment Link** | https://buy.stripe.com/aFa7sE1eZ4EF4yOfcJ0VO03 |
+| **Features** | Team dashboards, Legal indemnity, Custom grammars, Enterprise support |
+
+---
+
+## Customer Portal
+
+| Field | Value |
+|-------|-------|
+| **Portal Link** | https://billing.stripe.com/p/login/14A6oAcXHfjje9o3u10VO00 |
+| **Status** | ✅ Active |
+| **Website Location** | Footer → "Manage Subscription" |
+
+### Portal Features Enabled:
+
+- ✅ Update payment methods (add/remove cards)
+- ✅ View invoice history
+- ✅ Update customer information (billing address)
+- ✅ Cancel subscription (at end of billing period)
+- ✅ Switch between Architect and Showrunner plans
+- ✅ Prorate charges when switching plans
+- ✅ Update immediately when switching to cheaper plan
 
 ---
 
 ## Payment Methods Enabled
 
-A custom payment method configuration called **"Low Friction, Low fees, on page engagement, no redirects"** has been created with the following options:
+**Profile Name:** Low Friction, Low Fees, on page engagement, no redirects
 
-- ✅ **Cards** (All regions)
-- ✅ **Cartes Bancaires** (France)
-- ✅ **Apple Pay** (All regions)
-- ✅ **Google Pay** (All regions)
-- ✅ **Link** (All regions)
-
-These methods provide a smooth, low-friction checkout experience while keeping customers on-site.
+| Method | Status | Region |
+|--------|--------|--------|
+| Cards | ✅ Enabled | All regions |
+| Cartes Bancaires | ✅ Enabled | France |
+| Apple Pay | ✅ Enabled | All regions |
+| Google Pay | ✅ Enabled | All regions |
+| Link | ✅ Enabled | All regions |
 
 ---
 
-## Payment Links Usage
+## Branding Colors
 
-### Architect Tier ($19/month)
+| Color | Hex Code | Use |
+|-------|----------|-----|
+| **Primary (Warm Orange)** | `#D4692B` | Buttons, accents, highlights |
+| **Secondary (Deep Brown)** | `#3D2314` | Text, headers, backgrounds |
 
-**Direct Link:** https://buy.stripe.com/14A6oAcXHfjje9o3u10VO00
-
-Use this link for:
-- "Purchase Architect" buttons on website
-- Email marketing campaigns
-- Social media promotions
-- Direct customer inquiries
-
-### Showrunner Tier ($49/month)
-
-**Direct Link:** https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01
-
-Use this link for:
-- "Purchase Showrunner" buttons on website
-- Enterprise sales follow-ups
-- Team licensing inquiries
+**Logo:** Fireplace with pen icon (optimized to 227KB for Stripe upload)
 
 ---
 
 ## Integration with Website
 
-Update the payment buttons in `docs/index.html`:
+### Payment Buttons (in `docs/index.html`)
 
 ```html
 <!-- Architect Button -->
-<a href="https://buy.stripe.com/14A6oAcXHfjje9o3u10VO00" class="cta-button">Get Architect</a>
+<a href="https://buy.stripe.com/28E00cf5P3AB3uKggN0VO02" class="cta-button">Subscribe - $19/mo</a>
 
 <!-- Showrunner Button -->
-<a href="https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01" class="cta-button">Get Showrunner</a>
+<a href="https://buy.stripe.com/aFa7sE1eZ4EF4yOfcJ0VO03" class="cta-button">Subscribe - $49/mo</a>
+```
+
+### Footer Links
+
+```html
+<a href="https://billing.stripe.com/p/login/14A6oAcXHfjje9o3u10VO00" target="_blank">Manage Subscription</a>
 ```
 
 ---
 
-## License Key Format
+## License Key System
 
-### Key Structure
+### Key Format
 
 ```
 HRTH_[TIER]_[RANDOM_ID]
@@ -105,51 +133,58 @@ Examples:
 - HRTH_SHOWRUNNER_Ent5Bz8Lw3
 ```
 
-### Generating Keys (Manual for v1.0)
+### Generating Keys
 
 ```bash
-# Generate a random Architect key
-echo "HRTH_ARCHITECT_$(openssl rand -base64 8 | tr -dc 'a-zA-Z0-9' | head -c 10)"
+# Generate Architect key
+echo "HRTH_ARCHITECT_$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | head -c 12)"
 
-# Generate a random Showrunner key
-echo "HRTH_SHOWRUNNER_$(openssl rand -base64 8 | tr -dc 'a-zA-Z0-9' | head -c 10)"
+# Generate Showrunner key
+echo "HRTH_SHOWRUNNER_$(openssl rand -base64 12 | tr -dc 'a-zA-Z0-9' | head -c 12)"
 ```
 
-### Key Validation (In App)
+### Key Registry
 
-The `app.py` validates keys by prefix:
-
-```python
-def get_license_tier() -> str:
-    key = os.environ.get("HEARTH_LICENSE_KEY", "")
-    
-    if key.startswith("HRTH_SHOWRUNNER_"):
-        return "showrunner"
-    if key.startswith("HRTH_ARCHITECT_"):
-        return "architect"
-    
-    return "ronin"  # Free tier
-```
+See `Documents/LICENSE_KEYS.md` for issued keys.
 
 ---
 
-## Testing the Flow
+## Customer Journey
 
-### Test Mode
+1. **Discovery:** Customer visits https://brian95240.github.io/hearth-writer/
+2. **Purchase:** Clicks "Subscribe" → Stripe Payment Link
+3. **Checkout:** Enters payment info (Cards, Apple Pay, Google Pay, or Link)
+4. **Confirmation:** Redirected to welcome page with license key
+5. **Installation:** Uses wizard at `/install.html` for guided setup
+6. **Activation:** Enters license key, creates desktop shortcut
+7. **Management:** Uses Customer Portal to update payment, switch plans, or cancel
 
-1. Enable **Test mode** in Stripe Dashboard (toggle in top-right)
-2. Create test Payment Links using test price IDs
-3. Use test card: `4242 4242 4242 4242` (any future date, any CVC)
-4. Verify payment processing
-5. Verify statement descriptor
+---
 
-### Live Mode Verification
+## Quick Links
 
-- ✅ Account configured with "HEARTH WRITER" descriptor
-- ✅ Products created (Architect, Showrunner)
-- ✅ Payment Links created and live
-- ✅ Payment methods enabled (Cards, Apple Pay, Google Pay, Link)
-- ✅ Business website deployed at https://brian95240.github.io/hearth-writer/
+| Resource | URL |
+|----------|-----|
+| Stripe Dashboard | https://dashboard.stripe.com |
+| Products | https://dashboard.stripe.com/products |
+| Customers | https://dashboard.stripe.com/customers |
+| Subscriptions | https://dashboard.stripe.com/subscriptions |
+| Payment Links | https://dashboard.stripe.com/payment-links |
+| Customer Portal Settings | https://dashboard.stripe.com/settings/billing/portal |
+| Branding Settings | https://dashboard.stripe.com/settings/branding |
+| Payment Methods | https://dashboard.stripe.com/settings/payment_methods |
+
+---
+
+## Legacy Products (Should Be Archived)
+
+These were created initially but replaced with separate products for plan switching:
+
+| Product | Product ID | Price IDs | Status |
+|---------|------------|-----------|--------|
+| Hearth Writer (combined) | `prod_Tjb2XJH66ThMPT` | `price_1Sm7qc...`, `price_1Sm7qg...` | ⚠️ Archive |
+
+To archive: Products → Find "Hearth Writer" → Archive
 
 ---
 
@@ -159,48 +194,24 @@ def get_license_tier() -> str:
 |------|-------|---------|---------------------|--------|
 | Ronin | $0 | Free | N/A | ✅ Available |
 | Architect | $19/mo | Monthly recurring | HEARTH WRITER | ✅ Live |
-| Showrunner | $49/seat/mo | Monthly recurring | HEARTH WRITER | ✅ Live |
-
----
-
-## Next Steps
-
-1. **Update Website:** Add the payment links to the pricing section buttons
-2. **Test Purchase:** Make a small test purchase in live mode to verify the flow
-3. **Set Up Webhooks (Optional):** For automated license key delivery
-4. **Configure Customer Portal:** Allow customers to manage their subscriptions
-5. **Add Coupons (Optional):** Create promotional discount codes
-
----
-
-## Stripe Dashboard Quick Links
-
-- **Products:** https://dashboard.stripe.com/products
-- **Payment Links:** https://dashboard.stripe.com/payment-links
-- **Customers:** https://dashboard.stripe.com/customers
-- **Payments:** https://dashboard.stripe.com/payments
-- **Settings:** https://dashboard.stripe.com/settings
+| Showrunner | $49/mo | Monthly recurring | HEARTH WRITER | ✅ Live |
 
 ---
 
 ## Troubleshooting
 
-### "Statement descriptor invalid"
+### Customer can't switch plans
+- Verify both Architect and Showrunner products are added in Customer Portal settings
+- Products must be separate (not two prices under one product)
 
+### Statement descriptor issues
 - Max 22 characters
 - No special characters except `.` `-` `'`
 - Must be recognizable to customer
 
 ### Customer doesn't see payment methods
-
 - Verify payment methods are enabled in **Live mode** (not just Test mode)
 - Check that the payment method configuration is set to "Active"
-
-### Chargeback received
-
-- Verify statement descriptor is set correctly
-- Ensure product description is clear
-- Consider adding receipt email with product details
 
 ---
 
