@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install Hearth Writer - Easy Setup</title>
+    <link rel="icon" type="image/png" href="images/brand_logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #d4692b;
+            --success: #28a745;
+            --bg: #faf8f3;
+            --dark: #3e2723;
+            --light: #fff;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--dark);
+            min-height: 100vh;
+        }
+        
+        .wizard-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo img {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+        }
+        .logo h1 {
+            color: var(--primary);
+            margin-top: 15px;
+            font-size: 2em;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: #ddd;
+            z-index: 0;
+        }
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1;
+            flex: 1;
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #999;
+            font-size: 1.2em;
+            transition: all 0.3s;
+        }
+        .step-circle.active {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.1);
+        }
+        .step-circle.complete {
+            background: var(--success);
+            color: white;
+        }
+        .step-label {
+            margin-top: 8px;
+            font-size: 0.8em;
+            color: #999;
+            text-align: center;
+        }
+        .step-label.active {
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        /* Wizard Card */
+        .wizard-card {
+            background: var(--light);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 1.8em;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+        .step-subtitle {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        /* Platform Selection */
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .platform-card {
+            background: var(--bg);
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 25px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .platform-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .platform-card.selected {
+            border-color: var(--primary);
+            background: rgba(212, 105, 43, 0.1);
+        }
+        .platform-card .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .platform-card .name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        .platform-card .examples {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 5px;
+        }
+        
+        /* Big Action Button */
+        .action-btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            text-decoration: none;
+        }
+        .action-btn:hover {
+            background: #b85a24;
+            transform: scale(1.05);
+        }
+        .action-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .action-btn.success {
+            background: var(--success);
+        }
+        
+        /* Copy Command Box */
+        .command-box {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            position: relative;
+        }
+        .command-text {
+            color: #4ade80;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            word-break: break-all;
+            text-align: left;
+        }
+        .copy-indicator {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .copy-indicator.show {
+            opacity: 1;
+        }
+        
+        /* Instruction Box */
+        .instruction-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .instruction-box .icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .instruction-box p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .instruction-box .keyboard {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        /* Confirmation Buttons */
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .confirm-btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid;
+            transition: all 0.3s;
+        }
+        .confirm-btn.yes {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+        .confirm-btn.no {
+            background: white;
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        .confirm-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* License Input */
+        .license-input-group {
+            margin: 25px 0;
+        }
+        .license-input {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1em;
+            font-family: 'Courier New', monospace;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        .license-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        /* Checkbox Option */
+        .option-card {
+            background: var(--bg);
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .option-card:hover {
+            border-color: var(--primary);
+        }
+        .option-card.selected {
+            border-color: var(--primary);
+            background: rgba(212, 105, 43, 0.1);
+        }
+        .option-card .option-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .option-card .option-desc {
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+        .option-card .badge {
+            background: var(--success);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+        }
+        
+        /* Success Animation */
+        .success-animation {
+            font-size: 5em;
+            margin: 20px 0;
+            animation: bounce 0.5s ease;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Help Text */
+        .help-text {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 20px;
+        }
+        .help-text a {
+            color: var(--primary);
+        }
+        
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .nav-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        .nav-btn.back {
+            background: #eee;
+            color: #666;
+        }
+        .nav-btn.back:hover {
+            background: #ddd;
+        }
+        .nav-btn.next {
+            background: var(--primary);
+            color: white;
+        }
+        .nav-btn.next:hover {
+            background: #b85a24;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .platform-grid {
+                grid-template-columns: 1fr;
+            }
+            .wizard-card {
+                padding: 25px 20px;
+            }
+            .step-title {
+                font-size: 1.4em;
+            }
+            .action-btn {
+                padding: 15px 30px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wizard-container">
+    <div class="logo">
+        <img src="images/brand_logo.png" alt="Hearth Writer">
+        <h1>Hearth Writer</h1>
+    </div>
+    
+    <div class="progress-bar">
+        <div class="progress-step">
+            <div class="step-circle active" id="circle-1">1</div>
+            <div class="step-label active" id="label-1">Choose</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-circle" id="circle-2">2</div>
+            <div class="step-label" id="label-2">Prepare</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-circle" id="circle-3">3</div>
+            <div class="step-label" id="label-3">Install</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-circle" id="circle-4">4</div>
+            <div class="step-label" id="label-4">Activate</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-circle" id="circle-5">5</div>
+            <div class="step-label" id="label-5">Done!</div>
+        </div>
+    </div>
+    
+    <div class="wizard-card">
+        
+        <!-- Step 1: Choose Platform -->
+        <div class="step-content active" id="step-1">
+            <h2 class="step-title">What kind of computer do you have?</h2>
+            <p class="step-subtitle">Click on the picture that matches your computer</p>
+            
+            <div class="platform-grid">
+                <div class="platform-card" onclick="selectPlatform('windows', this)">
+                    <div class="icon">🪟</div>
+                    <div class="name">Windows</div>
+                    <div class="examples">Most laptops & PCs</div>
+                </div>
+                <div class="platform-card" onclick="selectPlatform('mac', this)">
+                    <div class="icon">🍎</div>
+                    <div class="name">Mac</div>
+                    <div class="examples">MacBook, iMac</div>
+                </div>
+                <div class="platform-card" onclick="selectPlatform('linux', this)">
+                    <div class="icon">🐧</div>
+                    <div class="name">Linux</div>
+                    <div class="examples">Ubuntu, Raspberry Pi</div>
+                </div>
+                <div class="platform-card" onclick="selectPlatform('chromebook', this)">
+                    <div class="icon">💻</div>
+                    <div class="name">Chromebook</div>
+                    <div class="examples">Chrome OS</div>
+                </div>
+            </div>
+            
+            <p class="help-text">Not sure? Look for a Windows logo 🪟 or Apple logo 🍎 on your computer</p>
+        </div>
+        
+        <!-- Step 2: Prepare (Windows Only - WSL) -->
+        <div class="step-content" id="step-2">
+            <div id="prep-windows">
+                <h2 class="step-title">Let's prepare your computer</h2>
+                <p class="step-subtitle">Windows needs a small helper program. This only takes a minute!</p>
+                
+                <button class="action-btn" onclick="copyCommand('wsl-install')">
+                    📋 Copy the Setup Command
+                </button>
+                
+                <div class="command-box" id="wsl-install-box">
+                    <div class="copy-indicator" id="wsl-install-indicator">✓ Copied!</div>
+                    <div class="command-text">wsl --install</div>
+                </div>
+                
+                <div class="instruction-box">
+                    <div class="icon">👆</div>
+                    <p>
+                        <strong>Now do this:</strong><br>
+                        1. Press the <span class="keyboard">Windows Key</span> on your keyboard<br>
+                        2. Type <strong>PowerShell</strong><br>
+                        3. Right-click it and choose <strong>"Run as Administrator"</strong><br>
+                        4. Click in the black window<br>
+                        5. Press <span class="keyboard">Ctrl</span> + <span class="keyboard">V</span> then <span class="keyboard">Enter</span>
+                    </p>
+                </div>
+                
+                <div class="confirm-buttons">
+                    <button class="confirm-btn yes" onclick="confirmStep('wsl-done')">✓ Done! It's installing</button>
+                    <button class="confirm-btn no" onclick="showHelp('wsl')">✗ I need help</button>
+                </div>
+                
+                <div id="wsl-restart-notice" style="display: none; margin-top: 20px;">
+                    <div class="instruction-box" style="background: #d4edda; border-color: #28a745;">
+                        <div class="icon">🔄</div>
+                        <p>
+                            <strong>Almost there!</strong><br>
+                            Your computer needs to restart. After it restarts:<br>
+                            1. Open <strong>"Ubuntu"</strong> from the Start Menu<br>
+                            2. Create a username and password when asked<br>
+                            3. Come back to this page and click "Continue"
+                        </p>
+                    </div>
+                    <button class="action-btn success" onclick="goToStep(3)">Continue →</button>
+                </div>
+            </div>
+            
+            <div id="prep-mac" style="display: none;">
+                <h2 class="step-title">Great news!</h2>
+                <p class="step-subtitle">Your Mac is already ready! No extra setup needed.</p>
+                <div class="success-animation">✅</div>
+                <button class="action-btn success" onclick="goToStep(3)">Continue →</button>
+            </div>
+            
+            <div id="prep-linux" style="display: none;">
+                <h2 class="step-title">Great news!</h2>
+                <p class="step-subtitle">Your Linux computer is already ready! No extra setup needed.</p>
+                <div class="success-animation">✅</div>
+                <button class="action-btn success" onclick="goToStep(3)">Continue →</button>
+            </div>
+            
+            <div id="prep-chromebook" style="display: none;">
+                <h2 class="step-title">Enable Linux on Chromebook</h2>
+                <p class="step-subtitle">We need to turn on a special feature first.</p>
+                
+                <div class="instruction-box">
+                    <div class="icon">⚙️</div>
+                    <p>
+                        1. Click the clock in the bottom-right corner<br>
+                        2. Click the ⚙️ <strong>Settings</strong> gear<br>
+                        3. Search for <strong>"Linux"</strong><br>
+                        4. Click <strong>"Turn on"</strong> next to Linux<br>
+                        5. Follow the prompts to set it up
+                    </p>
+                </div>
+                
+                <div class="confirm-buttons">
+                    <button class="confirm-btn yes" onclick="goToStep(3)">✓ Done! Linux is enabled</button>
+                    <button class="confirm-btn no" onclick="showHelp('chromebook')">✗ I need help</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3: Install -->
+        <div class="step-content" id="step-3">
+            <h2 class="step-title">Install Hearth Writer</h2>
+            <p class="step-subtitle">One command installs everything you need!</p>
+            
+            <button class="action-btn" onclick="copyCommand('install')">
+                📋 Copy the Install Command
+            </button>
+            
+            <div class="command-box" id="install-box">
+                <div class="copy-indicator" id="install-indicator">✓ Copied!</div>
+                <div class="command-text">curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</div>
+            </div>
+            
+            <div class="instruction-box" id="install-instructions">
+                <!-- Will be filled based on platform -->
+            </div>
+            
+            <div class="confirm-buttons">
+                <button class="confirm-btn yes" onclick="goToStep(4)">✓ It finished installing!</button>
+                <button class="confirm-btn no" onclick="showHelp('install')">✗ Something went wrong</button>
+            </div>
+        </div>
+        
+        <!-- Step 4: Activate License -->
+        <div class="step-content" id="step-4">
+            <h2 class="step-title">Enter Your License Key</h2>
+            <p class="step-subtitle">Paste the key you received after purchasing</p>
+            
+            <div class="license-input-group">
+                <input type="text" class="license-input" id="license-key" 
+                       placeholder="HRTH_ARCHITECT_xxxxx or HRTH_SHOWRUNNER_xxxxx"
+                       oninput="validateLicense()">
+            </div>
+            
+            <p class="help-text">Check your email for the license key, or <a href="index.html#pricing">purchase one here</a></p>
+            
+            <h3 style="margin-top: 30px; margin-bottom: 15px;">How should we remember your key?</h3>
+            
+            <div class="option-card selected" onclick="selectOption('permanent', this)">
+                <div class="option-title">
+                    🔒 Remember Forever <span class="badge">Recommended</span>
+                </div>
+                <div class="option-desc">Your key is saved so you never have to enter it again. Just double-click to start writing!</div>
+            </div>
+            
+            <div class="option-card" onclick="selectOption('session', this)">
+                <div class="option-title">
+                    🔑 Ask Me Each Time
+                </div>
+                <div class="option-desc">You'll enter your key each time you open Hearth Writer. More secure if you share your computer.</div>
+            </div>
+            
+            <button class="action-btn" id="activate-btn" onclick="activateLicense()" disabled>
+                Activate My License
+            </button>
+        </div>
+        
+        <!-- Step 5: Success + Desktop Shortcut -->
+        <div class="step-content" id="step-5">
+            <div class="success-animation">🎉</div>
+            <h2 class="step-title">You're All Set!</h2>
+            <p class="step-subtitle">Hearth Writer is installed and ready to use.</p>
+            
+            <div id="desktop-shortcut-section">
+                <h3 style="margin: 30px 0 15px;">Want a desktop shortcut?</h3>
+                <p style="color: #666; margin-bottom: 20px;">Double-click it anytime to start writing!</p>
+                
+                <button class="action-btn" onclick="copyCommand('shortcut')">
+                    📋 Copy Shortcut Command
+                </button>
+                
+                <div class="command-box" id="shortcut-box">
+                    <div class="copy-indicator" id="shortcut-indicator">✓ Copied!</div>
+                    <div class="command-text" id="shortcut-command"><!-- Filled by JS --></div>
+                </div>
+                
+                <div class="instruction-box" id="shortcut-instructions">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px;">
+                <h3>Ready to start writing?</h3>
+                <button class="action-btn success" onclick="copyCommand('start')">
+                    🚀 Copy Start Command
+                </button>
+                
+                <div class="command-box" id="start-box">
+                    <div class="copy-indicator" id="start-indicator">✓ Copied!</div>
+                    <div class="command-text">cd ~/hearth-writer && ./start.sh</div>
+                </div>
+                
+                <p style="margin-top: 20px; color: #666;">
+                    After pasting, Hearth Writer will open in your web browser at<br>
+                    <strong>http://localhost:5000</strong>
+                </p>
+            </div>
+            
+            <div class="nav-buttons" style="border: none; justify-content: center;">
+                <a href="index.html" class="action-btn" style="background: #666;">← Back to Home</a>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+    let selectedPlatform = null;
+    let licenseOption = 'permanent';
+    
+    // Check URL for pre-filled license key
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefilledKey = urlParams.get('key');
+    if (prefilledKey) {
+        document.getElementById('license-key').value = prefilledKey;
+        validateLicense();
+    }
+    
+    function selectPlatform(platform, element) {
+        selectedPlatform = platform;
+        document.querySelectorAll('.platform-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+        
+        // Auto-advance after selection
+        setTimeout(() => goToStep(2), 300);
+    }
+    
+    function goToStep(step) {
+        // Update progress bar
+        for (let i = 1; i <= 5; i++) {
+            const circle = document.getElementById(`circle-${i}`);
+            const label = document.getElementById(`label-${i}`);
+            circle.classList.remove('active', 'complete');
+            label.classList.remove('active');
+            
+            if (i < step) {
+                circle.classList.add('complete');
+                circle.innerHTML = '✓';
+            } else if (i === step) {
+                circle.classList.add('active');
+                label.classList.add('active');
+                circle.innerHTML = i;
+            } else {
+                circle.innerHTML = i;
+            }
+        }
+        
+        // Show correct step content
+        document.querySelectorAll('.step-content').forEach(content => content.classList.remove('active'));
+        document.getElementById(`step-${step}`).classList.add('active');
+        
+        // Handle step-specific logic
+        if (step === 2) {
+            showPrepContent();
+        } else if (step === 3) {
+            showInstallInstructions();
+        } else if (step === 5) {
+            showShortcutInstructions();
+        }
+        
+        currentStep = step;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    function showPrepContent() {
+        document.getElementById('prep-windows').style.display = 'none';
+        document.getElementById('prep-mac').style.display = 'none';
+        document.getElementById('prep-linux').style.display = 'none';
+        document.getElementById('prep-chromebook').style.display = 'none';
+        
+        document.getElementById(`prep-${selectedPlatform}`).style.display = 'block';
+    }
+    
+    function showInstallInstructions() {
+        const instructions = document.getElementById('install-instructions');
+        
+        if (selectedPlatform === 'windows') {
+            instructions.innerHTML = `
+                <div class="icon">👆</div>
+                <p>
+                    <strong>In the Ubuntu window:</strong><br>
+                    1. Click inside the Ubuntu window<br>
+                    2. Press <span class="keyboard">Ctrl</span> + <span class="keyboard">Shift</span> + <span class="keyboard">V</span><br>
+                    3. Press <span class="keyboard">Enter</span><br>
+                    4. Wait for it to finish (may take a few minutes)
+                </p>
+            `;
+        } else if (selectedPlatform === 'mac') {
+            instructions.innerHTML = `
+                <div class="icon">👆</div>
+                <p>
+                    <strong>Open Terminal and paste:</strong><br>
+                    1. Press <span class="keyboard">Cmd</span> + <span class="keyboard">Space</span><br>
+                    2. Type <strong>Terminal</strong> and press Enter<br>
+                    3. Press <span class="keyboard">Cmd</span> + <span class="keyboard">V</span> to paste<br>
+                    4. Press <span class="keyboard">Enter</span>
+                </p>
+            `;
+        } else {
+            instructions.innerHTML = `
+                <div class="icon">👆</div>
+                <p>
+                    <strong>In your Terminal:</strong><br>
+                    1. Open Terminal (or Linux Terminal on Chromebook)<br>
+                    2. Press <span class="keyboard">Ctrl</span> + <span class="keyboard">Shift</span> + <span class="keyboard">V</span> to paste<br>
+                    3. Press <span class="keyboard">Enter</span>
+                </p>
+            `;
+        }
+    }
+    
+    function showShortcutInstructions() {
+        const command = document.getElementById('shortcut-command');
+        const instructions = document.getElementById('shortcut-instructions');
+        const licenseKey = document.getElementById('license-key').value.trim();
+        
+        if (selectedPlatform === 'windows') {
+            command.textContent = `echo '@echo off
+wsl -e bash -c "export HEARTH_LICENSE_KEY=\\"${licenseKey}\\" && cd ~/hearth-writer && ./start.sh"' > "%USERPROFILE%\\Desktop\\Hearth Writer.bat"`;
+            instructions.innerHTML = `
+                <div class="icon">🖥️</div>
+                <p>Paste this in <strong>PowerShell</strong> to create a desktop shortcut.<br>
+                Then just double-click "Hearth Writer" on your desktop!</p>
+            `;
+        } else if (selectedPlatform === 'mac') {
+            command.textContent = `echo '#!/bin/bash
+export HEARTH_LICENSE_KEY="${licenseKey}"
+cd ~/hearth-writer && ./start.sh' > ~/Desktop/HearthWriter.command && chmod +x ~/Desktop/HearthWriter.command`;
+            instructions.innerHTML = `
+                <div class="icon">🖥️</div>
+                <p>Paste this in <strong>Terminal</strong> to create a desktop shortcut.<br>
+                Then just double-click "HearthWriter" on your desktop!</p>
+            `;
+        } else {
+            command.textContent = `echo '[Desktop Entry]
+Name=Hearth Writer
+Exec=bash -c "export HEARTH_LICENSE_KEY=${licenseKey} && cd ~/hearth-writer && ./start.sh"
+Type=Application
+Terminal=true' > ~/Desktop/HearthWriter.desktop && chmod +x ~/Desktop/HearthWriter.desktop`;
+            instructions.innerHTML = `
+                <div class="icon">🖥️</div>
+                <p>Paste this in <strong>Terminal</strong> to create a desktop shortcut.<br>
+                Then just double-click "Hearth Writer" on your desktop!</p>
+            `;
+        }
+    }
+    
+    function copyCommand(type) {
+        let text = '';
+        let indicatorId = '';
+        
+        switch(type) {
+            case 'wsl-install':
+                text = 'wsl --install';
+                indicatorId = 'wsl-install-indicator';
+                break;
+            case 'install':
+                text = 'curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash';
+                indicatorId = 'install-indicator';
+                break;
+            case 'shortcut':
+                text = document.getElementById('shortcut-command').textContent;
+                indicatorId = 'shortcut-indicator';
+                break;
+            case 'start':
+                text = 'cd ~/hearth-writer && ./start.sh';
+                indicatorId = 'start-indicator';
+                break;
+        }
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const indicator = document.getElementById(indicatorId);
+            indicator.classList.add('show');
+            setTimeout(() => indicator.classList.remove('show'), 2000);
+        });
+    }
+    
+    function confirmStep(action) {
+        if (action === 'wsl-done') {
+            document.getElementById('wsl-restart-notice').style.display = 'block';
+        }
+    }
+    
+    function showHelp(topic) {
+        // Could open a help modal or redirect to help page
+        alert('Help is on the way! For now, please visit our GitHub page for troubleshooting: https://github.com/brian95240/hearth-writer');
+    }
+    
+    function selectOption(option, element) {
+        licenseOption = option;
+        document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+        element.classList.add('selected');
+    }
+    
+    function validateLicense() {
+        const key = document.getElementById('license-key').value.trim().toUpperCase();
+        const btn = document.getElementById('activate-btn');
+        
+        if (key.startsWith('HRTH_ARCHITECT_') || key.startsWith('HRTH_SHOWRUNNER_')) {
+            btn.disabled = false;
+        } else {
+            btn.disabled = true;
+        }
+    }
+    
+    function activateLicense() {
+        const key = document.getElementById('license-key').value.trim();
+        // In a real implementation, this would copy the activation command
+        goToStep(5);
+    }
+</script>
+
+</body>
+</html>

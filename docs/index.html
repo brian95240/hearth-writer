@@ -372,7 +372,7 @@
                         <li>Linear timeline</li>
                         <li>Basic writing tools</li>
                     </ul>
-                    <a href="https://github.com/brian95240/hearth-writer" class="cta-button">Download Free</a>
+                    <a href="install.html" class="cta-button">Get Started Free</a>
                 </div>
 
                 <div class="pricing-card featured">
@@ -386,7 +386,7 @@
                         <li>Timeline injection</li>
                         <li>Advanced AI features</li>
                     </ul>
-                    <a href="https://buy.stripe.com/14A6oAcXHfjje9o3u10VO00" class="cta-button" target="_blank">Get Architect</a>
+                    <a href="https://buy.stripe.com/14A6oAcXHfjje9o3u10VO00" class="cta-button" target="_blank">Subscribe - $19/mo</a>
                 </div>
 
                 <div class="pricing-card">
@@ -400,13 +400,13 @@
                         <li>Custom grammars</li>
                         <li>Enterprise support</li>
                     </ul>
-                    <a href="https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01" class="cta-button" target="_blank">Get Showrunner</a>
+                    <a href="https://buy.stripe.com/9B65kw3n71staXc7Kh0VO01" class="cta-button" target="_blank">Subscribe - $49/mo</a>
                 </div>
             </div>
             
             <div style="margin-top: 60px; padding: 40px; background: rgba(212, 105, 43, 0.1); border: 2px solid var(--primary-color); border-radius: 15px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                <h3 style="color: var(--primary-color); text-align: center; margin-top: 0;">Already Purchased?</h3>
-                <p style="text-align: center; color: var(--dark-brown); margin-bottom: 25px;">Enter your license key to access your welcome page:</p>
+                <h3 style="color: var(--primary-color); text-align: center; margin-top: 0;">Already Have a License?</h3>
+                <p style="text-align: center; color: var(--dark-brown); margin-bottom: 25px;">Enter your license key to start the easy installation wizard:</p>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
                     <input type="text" id="license-key-input" placeholder="HRTH_ARCHITECT_xxxxx or HRTH_SHOWRUNNER_xxxxx" style="flex: 1; min-width: 250px; padding: 15px; font-family: 'Courier New', monospace; font-size: 0.9em; border: 2px solid var(--secondary-color); border-radius: 5px; background: white;">
                     <button onclick="activateLicense()" style="padding: 15px 30px; background: var(--primary-color); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 1em;">Activate</button>
@@ -469,17 +469,11 @@
                 return;
             }
             
-            if (key.startsWith('HRTH_ARCHITECT_')) {
+            if (key.startsWith('HRTH_ARCHITECT_') || key.startsWith('HRTH_SHOWRUNNER_')) {
                 message.style.color = 'var(--green)';
-                message.textContent = '✓ Redirecting to Architect welcome page...';
+                message.textContent = '✓ Redirecting to installation wizard...';
                 setTimeout(() => {
-                    window.location.href = 'welcome_architect.html';
-                }, 1000);
-            } else if (key.startsWith('HRTH_SHOWRUNNER_')) {
-                message.style.color = 'var(--green)';
-                message.textContent = '✓ Redirecting to Showrunner welcome page...';
-                setTimeout(() => {
-                    window.location.href = 'welcome_showrunner.html';
+                    window.location.href = 'install.html?key=' + encodeURIComponent(document.getElementById('license-key-input').value.trim());
                 }, 1000);
             } else {
                 message.style.color = 'var(--primary-color)';
