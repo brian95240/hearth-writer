@@ -613,13 +613,16 @@
                 const response = await fetch('/health');
                 const data = await response.json();
                 
-                if (data.license && data.license !== 'RONIN' && data.license !== 'none') {
+                // Check for 'tier' (what server returns) or 'license' (fallback)
+                const tier = data.tier || data.license;
+                
+                if (tier && tier.toLowerCase() !== 'ronin' && tier !== 'none') {
                     // User has a paid license
                     const banner = document.getElementById('licensed-banner');
                     const tierDisplay = document.getElementById('license-tier-display');
                     
                     banner.classList.add('active');
-                    tierDisplay.innerHTML = `Your <strong>${data.license}</strong> license is active.`;
+                    tierDisplay.innerHTML = `Your <strong>${tier.toUpperCase()}</strong> license is active.`;
                     
                     // Scroll to top to show banner
                     window.scrollTo(0, 0);
