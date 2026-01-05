@@ -9,10 +9,11 @@
         :root { 
             --bg: #0a0a0a; 
             --text: #e0e0e0; 
-            --accent: #ff4d00; 
+            --accent: #D4692B; 
             --dim: #444; 
             --gold: #ffd700; 
             --success: #4caf50;
+            --brown: #3D2314;
         }
         
         * { box-sizing: border-box; }
@@ -39,6 +40,46 @@
             font-size: 0.9em; 
             margin-bottom: 40px; 
             display: block; 
+        }
+        
+        /* Licensed User Banner */
+        .licensed-banner {
+            background: linear-gradient(135deg, var(--brown), #2a1a0f);
+            border: 2px solid var(--gold);
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            display: none;
+        }
+        
+        .licensed-banner.active {
+            display: block;
+        }
+        
+        .licensed-banner h2 {
+            color: var(--gold);
+            margin: 0 0 10px 0;
+        }
+        
+        .licensed-banner p {
+            color: var(--text);
+            margin: 0 0 15px 0;
+        }
+        
+        .licensed-banner .start-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--gold);
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2em;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .licensed-banner .start-btn:hover {
+            background: #ffed4a;
         }
         
         /* Hero Section */
@@ -220,9 +261,15 @@
             border-radius: 4px;
         }
         
+        .command-box.active {
+            display: block;
+        }
+        
         .command-text { 
             color: #8f8; 
             font-size: 0.8em; 
+            display: block;
+            margin-bottom: 10px;
         }
         
         .command-label {
@@ -230,6 +277,25 @@
             font-size: 0.7em;
             margin-bottom: 8px;
             display: block;
+        }
+        
+        .copy-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            background: #ff6a33;
+        }
+        
+        .copy-btn.copied {
+            background: var(--success);
         }
 
         /* Statement Descriptor Notice */
@@ -302,6 +368,44 @@
             margin: 10px 0;
             color: var(--accent);
         }
+        
+        .license-input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .license-input {
+            background: #111;
+            border: 1px solid var(--dim);
+            color: var(--text);
+            padding: 10px 15px;
+            font-family: inherit;
+            font-size: 1em;
+            width: 300px;
+            max-width: 100%;
+        }
+        
+        .license-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .activate-btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        
+        .activate-btn:hover {
+            background: #ff6a33;
+        }
 
         /* Footer */
         .footer { 
@@ -327,10 +431,19 @@
             h1 { font-size: 1.8em; }
             .hero-features { flex-direction: column; gap: 10px; }
             .price { font-size: 1.5em; }
+            .license-input { width: 100%; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Licensed User Banner - Shows when license is detected -->
+    <div class="licensed-banner" id="licensed-banner">
+        <h2>🔥 WELCOME BACK, LICENSED USER!</h2>
+        <p id="license-tier-display">Your <strong>SHOWRUNNER</strong> license is active.</p>
+        <p style="font-size: 0.9em; color: #aaa;">All premium features are unlocked.</p>
+        <a href="/editor" class="start-btn" id="start-writing-btn">START WRITING →</a>
+    </div>
 
     <div class="hero">
         <h1>HEARTH WRITER</h1>
@@ -365,10 +478,11 @@
                     <li>1 Active Model</li>
                     <li>Community Support</li>
                 </ul>
-                <button class="btn secondary" onclick="showInstall('ronin')">DOWNLOAD FREE</button>
-                <div id="ronin-cmd" class="command-box">
+                <button class="btn secondary" onclick="toggleInstall('ronin')">DOWNLOAD FREE</button>
+                <div class="command-box" id="ronin-cmd">
                     <span class="command-label">Run in terminal:</span>
-                    <code class="command-text">git clone https://github.com/brian95240/hearth-writer.git && cd hearth-writer && pip install -r requirements.txt && ./start.sh</code>
+                    <code class="command-text" id="ronin-command">curl -sSL https://raw.githubusercontent.com/brian95240/hearth-writer/main/setup.sh | bash</code>
+                    <button class="copy-btn" onclick="copyCommand('ronin-command', this)">📋 COPY COMMAND</button>
                 </div>
             </div>
 
@@ -386,11 +500,9 @@
                     <li>Priority Installer</li>
                     <li>Email Support</li>
                 </ul>
-                <!-- STRIPE PAYMENT LINK - Replace with your actual link -->
-                <a href="https://buy.stripe.com/REPLACE_WITH_ARCHITECT_LINK" 
+                <a href="https://buy.stripe.com/28E00cf5P3AB3uKggN0VO02" 
                    target="_blank" 
-                   class="btn gold"
-                   id="architect-btn">
+                   class="btn gold">
                     PURCHASE LICENSE
                 </a>
             </div>
@@ -409,8 +521,7 @@
                     <li>Priority Support</li>
                     <li>Dedicated Account Manager</li>
                 </ul>
-                <!-- STRIPE PAYMENT LINK - Replace with your actual link -->
-                <a href="https://buy.stripe.com/REPLACE_WITH_SHOWRUNNER_LINK" 
+                <a href="https://buy.stripe.com/aFa7sE1eZ4EF4yOfcJ0VO03" 
                    target="_blank" 
                    class="btn">
                     PURCHASE LICENSE
@@ -426,10 +537,22 @@
 
     <div class="license-section">
         <h3>ALREADY HAVE A LICENSE KEY?</h3>
-        <p>Activate your license before starting Hearth Writer:</p>
-        <code>export HEARTH_LICENSE_KEY="HRTH_ARCHITECT_yourkey"</code>
+        <p>Enter your license key to activate:</p>
+        
+        <div class="license-input-group">
+            <input type="text" class="license-input" id="license-key-input" placeholder="HRTH_ARCHITECT_yourkey">
+            <button class="activate-btn" onclick="activateLicense()">ACTIVATE</button>
+        </div>
+        
+        <p style="font-size: 0.85em; color: #888; margin-top: 15px;">
+            <strong>For permanent activation</strong>, run this in your terminal:
+        </p>
+        <div style="background: #111; padding: 15px; margin: 10px auto; max-width: 600px; text-align: left;">
+            <code class="command-text" id="export-command">echo 'export HEARTH_LICENSE_KEY="YOUR_KEY_HERE"' >> ~/.bashrc && source ~/.bashrc</code>
+            <button class="copy-btn" onclick="copyCommand('export-command', this)" style="margin-top: 10px;">📋 COPY COMMAND</button>
+        </div>
         <p style="font-size: 0.8em; color: #666; margin-top: 15px;">
-            Then run <code>./start.sh</code> to launch with Pro features enabled.
+            Then run <code style="background: #111; padding: 2px 6px;">bash start.sh</code> to launch with Pro features enabled.
         </p>
     </div>
 
@@ -476,7 +599,7 @@
         <p style="margin-top: 20px;">
             <a href="https://github.com/brian95240/hearth-writer">GitHub</a> • 
             <a href="https://github.com/brian95240/hearth-writer/wiki">Documentation</a> • 
-            <a href="https://github.com/brian95240/hearth-writer/issues">Support</a>
+            <a href="https://billing.stripe.com/p/login/14A6oAcXHfjje9o3u10VO00" target="_blank">Manage Subscription</a>
         </p>
         <p style="margin-top: 20px; color: #333;">
             Built for creators who refuse to compromise.
@@ -484,14 +607,93 @@
     </div>
 
     <script>
-        function showInstall(id) {
-            const cmdBox = document.getElementById(id + '-cmd');
-            if (cmdBox.style.display === 'block') {
-                cmdBox.style.display = 'none';
-            } else {
-                document.querySelectorAll('.command-box').forEach(el => el.style.display = 'none');
-                cmdBox.style.display = 'block';
+        // Check license status on page load
+        async function checkLicense() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                if (data.license && data.license !== 'RONIN' && data.license !== 'none') {
+                    // User has a paid license
+                    const banner = document.getElementById('licensed-banner');
+                    const tierDisplay = document.getElementById('license-tier-display');
+                    
+                    banner.classList.add('active');
+                    tierDisplay.innerHTML = `Your <strong>${data.license}</strong> license is active.`;
+                    
+                    // Scroll to top to show banner
+                    window.scrollTo(0, 0);
+                }
+            } catch (e) {
+                console.log('Could not check license status');
             }
+        }
+        
+        // Run on page load
+        checkLicense();
+        
+        // Toggle install command visibility
+        function toggleInstall(id) {
+            const cmdBox = document.getElementById(id + '-cmd');
+            cmdBox.classList.toggle('active');
+        }
+        
+        // Copy command to clipboard
+        function copyCommand(elementId, button) {
+            const commandText = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(commandText).then(() => {
+                button.textContent = '✓ COPIED!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = '📋 COPY COMMAND';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = commandText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                button.textContent = '✓ COPIED!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = '📋 COPY COMMAND';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+        
+        // Activate license (update the export command with user's key)
+        function activateLicense() {
+            const keyInput = document.getElementById('license-key-input');
+            const key = keyInput.value.trim();
+            
+            if (!key) {
+                alert('Please enter your license key');
+                return;
+            }
+            
+            if (!key.startsWith('HRTH_')) {
+                alert('Invalid license key format. Keys should start with HRTH_');
+                return;
+            }
+            
+            // Update the export command with the user's key
+            const exportCmd = document.getElementById('export-command');
+            exportCmd.textContent = `echo 'export HEARTH_LICENSE_KEY="${key}"' >> ~/.bashrc && source ~/.bashrc`;
+            
+            // Scroll to the command
+            exportCmd.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Highlight the command
+            exportCmd.style.background = '#1a3a1a';
+            setTimeout(() => {
+                exportCmd.style.background = 'transparent';
+            }, 2000);
+            
+            alert('Your license key has been added to the command below. Copy and paste it into your terminal to activate permanently!');
         }
         
         // Track button clicks (for analytics)
@@ -499,7 +701,6 @@
             btn.addEventListener('click', function() {
                 const tier = this.closest('.card')?.querySelector('h2')?.textContent || 'unknown';
                 console.log('Tier selected:', tier);
-                // Add your analytics tracking here
             });
         });
     </script>
