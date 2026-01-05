@@ -427,6 +427,23 @@ signal.signal(signal.SIGINT, handle_shutdown)
 signal.signal(signal.SIGTERM, handle_shutdown)
 
 
+# === Frontend Static File Serving ===
+
+from flask import send_from_directory
+
+@app.route('/')
+def serve_index():
+    """Serve the main frontend page."""
+    return send_from_directory('frontend/public', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve static files from frontend/public, fallback to index.html."""
+    if os.path.exists(os.path.join('frontend/public', path)):
+        return send_from_directory('frontend/public', path)
+    return send_from_directory('frontend/public', 'index.html')
+
+
 # === Main Entry Point ===
 
 if __name__ == '__main__':
